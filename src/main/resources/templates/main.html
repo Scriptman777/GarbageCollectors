@@ -3,10 +3,46 @@
 <head>
     <meta charset="UTF-8">
     <title>Garbage Collectors</title>
+    <script src="https://api.mapy.cz/loader.js"></script>
+    <script>Loader.load()</script>
 </head>
 <body>
 
 <h1>MAIN</h1>
+
+<h2>MAP API TEST</h2>
+
+<div id="mapa" style="width:600px; height:400px;"></div>
+
+<script th:inline="javascript">
+
+    var lon = [[${lon}]];
+    var lat = [[${lat}]];
+    console.log(lon);
+    console.log(lat);
+
+    var center = SMap.Coords.fromWGS84(lat, lon);
+    var m = new SMap(JAK.gel("mapa"), center, 13);
+    m.addDefaultLayer(SMap.DEF_BASE).enable();
+    m.addDefaultControls();
+
+    var layer = new SMap.Layer.Marker();
+    m.addLayer(layer);
+    layer.enable();
+
+    var options = {};
+    var marker = new SMap.Marker(center, "myMarker", options);
+    layer.addMarker(marker);
+
+    var newMarker = new SMap.Marker(center, "anotherMarker", options);
+    newMarker.decorate(SMap.Marker.Feature.Draggable);
+    layer.addMarker(newMarker);
+
+</script>
+
+<!-- https://api.mapy.cz/view?page=geocoding -->
+<button id="add"> ADD </button>
+
 
 </body>
 </html>
