@@ -4,29 +4,39 @@
     <meta charset="UTF-8">
     <title>Address Find Demo</title>
     <script src="https://api.mapy.cz/loader.js"></script>
+    <div th:include="fragments/head"></div> <!-- zde se načte hlavička (/templates/fragments/head.html) -->
     <script>Loader.load()</script>
 </head>
+
+<div th:replace="fragments/navbar"></div> <!-- zde se načte navigace (/templates/fragments/navbar.html) -->
+
 <body>
+<div class="container">
+    <div class="row">
+        <div class="col-2"></div>
+        <div class="col-8" style="text-align: center;">
+            <br>
+            <br>
 
+            <!-- https://api.mapy.cz/view?page=geocoding -->
+            <form id="form">
+                <p>
+                    <label>Město: <input type="text" id="city" value=""/></label>
+                    <label>Ulice a čp.: <input type="text" id="street" value=""/></label>
+                    <button type="submit" value="Hledat" class="btn btn-primary"><i class="bi bi-search"></i></button>
+                    <!--        <input type="submit" value="Hledat">-->
+                </p>
+            </form>
 
-<!-- https://api.mapy.cz/view?page=geocoding -->
+            <div id="m" style="height:360px"></div>
+            <h3 id="info"></h3>
 
-<form id="form">
-    <p>
-        <label>Město: <input type="text" id="city" value="" /></label>
-        <label>Ulice a čp.: <input type="text" id="street" value="" /></label>
-        <input type="submit" value="Hledat" />
-    </p>
-</form>
-
-<div id="m" style="height:360px"></div>
-<h3 id="info"></h3>
-
-
-<h3>Co se uloží do DB:</h3>
-<em id="outLat"></em>
-<em id="outLon"></em>
-
+            <h3>Co se uloží do DB:</h3>
+            <em id="outLat"></em>
+            <em id="outLon"></em>
+        </div>
+    </div>
+</div>
 
 <script>
 
@@ -87,14 +97,9 @@
     }
 
 
-
     var form = JAK.gel("form");
     JAK.Events.addListener(form, "submit", geokoduj); /* Při odeslání formuláře pustit geokódování */
 </script>
-
-
-
-
 
 
 </body>

@@ -4,37 +4,45 @@
     <meta charset="UTF-8">
     <title>Simple Map Demo</title>
     <script src="https://api.mapy.cz/loader.js"></script>
+    <div th:include="fragments/head"></div>
     <script>Loader.load()</script>
 </head>
 <body>
+<div th:replace="fragments/navbar"></div>
 
-<h1>Simple Map Demo</h1>
-
-<div id="mapa" style="width:600px; height:400px;"></div>
+<div class="container">
+    <div class="row">
+        <div class="col-2"></div>
+        <div class="col-8" style="text-align: center;">
+            <br>
+            <h1>Simple Map Demo</h1>
+            <div id="mapa" style="width:600px; height:400px; margin-left: auto; margin-right: auto;"></div>
+        </div>
+    </div>
+</div>
 
 <script th:inline="javascript">
+    var lon = [[${lon}]];
+    var lat = [[${lat}]];
+    console.log(lon);
+    console.log(lat);
 
-  var lon = [[${lon}]];
-  var lat = [[${lat}]];
-  console.log(lon);
-  console.log(lat);
+    var center = SMap.Coords.fromWGS84(lat, lon);
+    var m = new SMap(JAK.gel("mapa"), center, 13);
+    m.addDefaultLayer(SMap.DEF_BASE).enable();
+    m.addDefaultControls();
 
-  var center = SMap.Coords.fromWGS84(lat, lon);
-  var m = new SMap(JAK.gel("mapa"), center, 13);
-  m.addDefaultLayer(SMap.DEF_BASE).enable();
-  m.addDefaultControls();
+    var layer = new SMap.Layer.Marker();
+    m.addLayer(layer);
+    layer.enable();
 
-  var layer = new SMap.Layer.Marker();
-  m.addLayer(layer);
-  layer.enable();
+    var options = {};
+    var marker = new SMap.Marker(center, "myMarker", options);
+    layer.addMarker(marker);
 
-  var options = {};
-  var marker = new SMap.Marker(center, "myMarker", options);
-  layer.addMarker(marker);
-
-  var newMarker = new SMap.Marker(center, "anotherMarker", options);
-  newMarker.decorate(SMap.Marker.Feature.Draggable);
-  layer.addMarker(newMarker);
+    var newMarker = new SMap.Marker(center, "anotherMarker", options);
+    newMarker.decorate(SMap.Marker.Feature.Draggable);
+    layer.addMarker(newMarker);
 
 </script>
 
