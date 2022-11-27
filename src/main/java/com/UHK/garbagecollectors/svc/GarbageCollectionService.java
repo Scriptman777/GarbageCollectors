@@ -3,7 +3,9 @@ package com.UHK.garbagecollectors.svc;
 import com.UHK.garbagecollectors.model.GCollection;
 import com.UHK.garbagecollectors.repos.GCollectionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
+@Service
 public class GarbageCollectionService {
 
     private GCollectionRepository repo;

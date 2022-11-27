@@ -15,6 +15,9 @@ public class GCan {
     @ManyToOne
     private GCollection collection;
 
+    @OneToOne
+    private Location location;
+
 
     public GCollection getCollection() {
         return collection;
@@ -42,5 +45,14 @@ public class GCan {
 
     public void setGarbageType(GType garbageType) {
         this.garbageType = garbageType;
+    }
+
+
+    public Location getLocation() {
+        return location;
+    }
+
+    public void setLocation(Location location) {
+        this.location = location;
     }
 }

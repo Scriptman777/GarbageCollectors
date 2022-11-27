@@ -16,7 +16,6 @@ public class Garage {
     @OneToMany(mappedBy = "mainGarage")
     private List<AbstractVehicle> managedVehicles;
 
-
     public int getId() {
         return id;
     }
