@@ -1,9 +1,11 @@
 package com.UHK.garbagecollectors.control;
 
 import com.UHK.garbagecollectors.model.GCan;
+import com.UHK.garbagecollectors.model.GTruck;
 import com.UHK.garbagecollectors.model.GType;
 import com.UHK.garbagecollectors.model.Location;
 import com.UHK.garbagecollectors.svc.GarbageCanService;
+import com.UHK.garbagecollectors.svc.GarbageTruckService;
 import com.UHK.garbagecollectors.svc.LocationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -23,26 +25,18 @@ public class TestController {
 
     private GarbageCanService garbageCanService;
     private LocationService locationService;
+    private GarbageTruckService garbageTruckService;
 
     @Autowired
-    public TestController(GarbageCanService gcs, LocationService ls) {
+    public TestController(GarbageCanService gcs, LocationService ls, GarbageTruckService gts) {
         this.garbageCanService = gcs;
         this.locationService = ls;
-
+        this.garbageTruckService = gts;
     }
-
-//    @GetMapping("/")
-//    public String test(Model model) {
-//        seedDB();
-//        model.addAttribute("lokace", locationService.getLocations());
-//        model.addAttribute("gcan", new GCan());
-//        return "test";
-//    }
 
     @GetMapping("/")
     public String popelnice(Model model) {
         seedDB();
-        model.addAttribute("gCan2", new GCan());
         model.addAttribute("gCans", garbageCanService.getGarbageCans());
         return "popelnice";
     }
@@ -114,6 +108,12 @@ public class TestController {
         garbageCanService.add(gcan);
 
         return "redirect:/";
+    }
+
+    @GetMapping("/svozoveVozy")
+    public String svozoveVozy(Model model) {
+        model.addAttribute("gTrucs", garbageTruckService.getGarbageTrucks());
+        return "svozoveVozy";
     }
 
 
@@ -196,6 +196,12 @@ public class TestController {
         testLoc3.setGPSlat(lat);
         testLoc3.setGPSlon(lon);
         testCan3.setLocation(testLoc3);
+
+//        GTruck gTruck1 = new GTruck();
+//        gTruck1.setCapacity(5300);
+//        gTruck1.setMake("make1");
+//        gTruck1.setModel("BMW");
+//        gTruck1.setLicencePlate("9H97903");
 
         if (garbageCanService.getGarbageCans().size() == 0) {
             locationService.add(testLoc1);
