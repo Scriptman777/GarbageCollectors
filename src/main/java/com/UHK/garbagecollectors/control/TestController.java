@@ -31,16 +31,17 @@ public class TestController {
 
     }
 
-    @GetMapping("/")
-    public String test(Model model) {
-        seedDB();
-        model.addAttribute("lokace", locationService.getLocations());
-        model.addAttribute("gcan", new GCan());
-        return "test";
-    }
+//    @GetMapping("/")
+//    public String test(Model model) {
+//        seedDB();
+//        model.addAttribute("lokace", locationService.getLocations());
+//        model.addAttribute("gcan", new GCan());
+//        return "test";
+//    }
 
-    @GetMapping("/popelnice")
+    @GetMapping("/")
     public String popelnice(Model model) {
+        seedDB();
         model.addAttribute("gCan2", new GCan());
         model.addAttribute("gCans", garbageCanService.getGarbageCans());
         return "popelnice";
@@ -67,7 +68,7 @@ public class TestController {
         gcan.setLocation(location);
         garbageCanService.add(gcan);
 
-        return "redirect:/popelnice";
+        return "redirect:/";
     }
 
     @GetMapping("/upravaPopelnice")
@@ -112,7 +113,7 @@ public class TestController {
         locationService.add(location);
         garbageCanService.add(gcan);
 
-        return "redirect:/popelnice";
+        return "redirect:/";
     }
 
 
