@@ -35,7 +35,11 @@
                         <td th:text="${gCan.volume}"></td>
                         <td th:text="${gCan.getLocation().getAddress()}"></td>
                         <td>
-                            <a href="/upravaPopelnice" type="button" class="btn btn-primary"><i class="bi bi-pencil"></i> Upravit</a>
+<!--                            <form method="get" th:object="${gCan2}">-->
+<!--                            <a href="/upravaPopelnice" type="submit" th:object="${gCan2}" th:value="23" class="btn btn-primary"><i class="bi bi-pencil"></i> Upravit</a>-->
+<!--&lt;!&ndash;                                <input href="/upravaPopelnice" class="btn btn-primary" type="submit" th:value="${gCan.id}" style="margin-top: 15px;" value="Vytvořit popelnici">&ndash;&gt;-->
+<!--                            </form>-->
+                            <a th:href="@{/upravaPopelnice(id=${gCan.id})}">edit</a>
                         </td>
                     </tr>
                 </div>

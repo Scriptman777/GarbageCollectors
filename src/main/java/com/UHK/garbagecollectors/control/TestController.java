@@ -14,6 +14,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.util.List;
+import java.util.Optional;
+
 @Controller
 public class TestController {
 
@@ -38,6 +41,7 @@ public class TestController {
 
     @GetMapping("/popelnice")
     public String popelnice(Model model) {
+        model.addAttribute("gCan2", new GCan());
         model.addAttribute("gCans", garbageCanService.getGarbageCans());
         return "popelnice";
     }
@@ -56,7 +60,7 @@ public class TestController {
             GCan gcan,
             Location location
     ) {
-        if (location.getHouseNumber().equals("---")){
+        if (location.getHouseNumber().equals("---")) {
             location.setHouseNumber("");
         }
         locationService.add(location);
@@ -66,9 +70,54 @@ public class TestController {
         return "redirect:/popelnice";
     }
 
+    @GetMapping("/upravaPopelnice")
+    public String upravaPopelnice(int id, Model model) {
+        List<GCan> gcans = garbageCanService.getGarbageCans();
+        GCan gcan = new GCan();
+        for (GCan gcanTmp : gcans) {
+            if (gcanTmp.getId() == id){
+                gcan = gcanTmp;
+                break;
+            }
+        }
+        model.addAttribute("gcan", gcan);
+        model.addAttribute("location", gcan.getLocation());
+        model.addAttribute("mapCenterLat", gcan.getLocation().getGPSlat());
+        model.addAttribute("mapCenterLon", gcan.getLocation().getGPSlon());
+        return "upravaPopelnice";
+    }
+
+    @PostMapping("/upravaPopelnice")
+    public String upravitPopelniciSubmit(
+            int id,
+            GCan gcan,
+            Location location
+    ) {
+        if (location.getHouseNumber().equals("---")) {
+            location.setHouseNumber("");
+        }
+        gcan.setId(id);
+        gcan.setLocation(location);
+
+        List<GCan> gcans = garbageCanService.getGarbageCans();
+        int locationId = 0;
+        for (GCan gcanTmp : gcans) {
+            if (gcanTmp.getId() == id){
+                locationId = gcanTmp.getLocation().getId();
+                break;
+            }
+        }
+        location.setId(locationId);
+        gcan.setLocation(location);
+        locationService.add(location);
+        garbageCanService.add(gcan);
+
+        return "redirect:/popelnice";
+    }
+
 
     @GetMapping("/simpleMap")
-    public String simpleMap(Model model){
+    public String simpleMap(Model model) {
         double lon = 50.2035200d;
         double lat = 15.8318111d;
         model.addAttribute("lon", lon);
@@ -77,13 +126,13 @@ public class TestController {
     }
 
     @GetMapping("/addressFind")
-    public String addressFind(Model model){
+    public String addressFind(Model model) {
 
         return "vytvoritPopelnici";
     }
 
     @GetMapping("/dbTest")
-    public String dbTest(Model model){
+    public String dbTest(Model model) {
 
         GCan testCan = new GCan();
         testCan.setGarbageType(GType.Směsný);
@@ -107,7 +156,7 @@ public class TestController {
         return "dbTest";
     }
 
-    private void seedDB(){
+    private void seedDB() {
         GCan testCan1 = new GCan();
         testCan1.setGarbageType(GType.Bio);
         testCan1.setVolume(10);
@@ -147,7 +196,7 @@ public class TestController {
         testLoc3.setGPSlon(lon);
         testCan3.setLocation(testLoc3);
 
-        if (garbageCanService.getGarbageCans().size() == 0){
+        if (garbageCanService.getGarbageCans().size() == 0) {
             locationService.add(testLoc1);
             garbageCanService.add(testCan1);
 

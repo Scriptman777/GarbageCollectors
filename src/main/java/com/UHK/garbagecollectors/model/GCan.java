@@ -30,6 +30,9 @@ public class GCan {
     public int getId() {
         return id;
     }
+    public void setId(int id) {
+        this.id = id;
+    }
 
     public float getVolume() {
         return volume;
