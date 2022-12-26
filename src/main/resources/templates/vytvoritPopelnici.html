@@ -16,17 +16,35 @@
         <div class="col-2"></div>
         <div class="col-8" style="text-align: center">
             <br>
+            <h1>Vytvoření popelnice</h1>
             <br>
 
             <!-- https://api.mapy.cz/view?page=geocoding -->
             <form id="form">
-                <p>
-                    <label>Město: <input type="text" id="city" value=""/></label>
-                    <label>Ulice a čp.: <input type="text" id="street" value=""/></label>
-                    <button type="submit" value="Hledat" class="btn btn-primary"><i class="bi bi-search"></i></button>
-                </p>
-            </form>
+<!--                    <label>Město: <input type="text" id="city" value=""/></label>-->
+<!--                    <label>Ulice a čp.: <input type="text" id="street" value=""/></label>-->
 
+                <div class="row">
+                    <div class="col-2"></div>
+                    <div class="form-group col-4">
+                        <div class="form-floating">
+                            <input class="form-control" placeholder="text" ype="text" id="city" value="">
+                            <label for="cityOut">Město:</label>
+                        </div>
+                    </div>
+
+                    <div class="form-group col-4">
+                        <div class="form-floating">
+                            <input class="form-control" id="street" placeholder="text">
+                            <label for="streetOut">Ulice a čp.:</label>
+                        </div>
+                    </div>
+                <div class=" col-1">
+                    <button type="submit" value="Hledat" class="btn btn-primary" style="margin-top: 10px"><i class="bi bi-search"></i></button>
+                </div>
+            </div>
+            </form>
+<br>
             <div id="m" style="width:75%; height:150%; margin-left: 12.5%;"></div>
             <br>
             <form method="post" th:object="${gcan}">
