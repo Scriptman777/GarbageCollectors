@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Garbage Collectors</title>
@@ -13,8 +13,14 @@
     <li><a href="/simpleMap">Simple map demo</a></li>
     <li><a href="/addressFind">Address demo</a></li>
     <li><a href="/dbTest">Create a dummy Garbage Can</a></li>
+    <li><a href="/popelnice">Přehled popelnic</a></li>
 </ul>
 
+<div th:each="lok: ${lokace}">
+    <span th:text="${lok.city}"></span>
+<!--    <a th:href="@{/inzerat(id=${inzerat.id})}">edit</a>-->
+</div>
 
+<div th:if="${lokace.size()} lt 1">Zadna data</div>
 </body>
 </html>

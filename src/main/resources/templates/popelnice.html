@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Simple Map Demo</title>
+    <script src="https://api.mapy.cz/loader.js"></script>
+    <div th:include="fragments/head"></div>
+    <script>Loader.load()</script>
+</head>
+<body>
+<div th:replace="fragments/navbar"></div>
+
+<div class="container">
+    <div class="row">
+        <div class="col-2"></div>
+        <div class="col-8" style="text-align: center;">
+            <br>
+            <h1>Přehled popelnic <a href="/vytvoritPopelnici" type="button" class="btn btn-primary" style="margin-left: 0.8em;"><i class="bi bi-plus-circle"></i></a></h1>
+            <br>
+            <div id="mapa" style="width:600px; height:400px; margin-left: auto; margin-right: auto;"></div>
+            <br>
+            <table class="table table-hover">
+                <thead>
+                <tr>
+                    <th scope="col">Typ popelnice</th>
+                    <th scope="col">Objem [l]</th>
+                    <th scope="col">Adresa</th>
+                    <th scope="col"></th>
+                </tr>
+                </thead>
+                <tbody>
+                <div th:each="gCan: ${gCans}">
+                    <tr>
+                        <td th:text="${gCan.garbageType}"></td>
+                        <td th:text="${gCan.volume}"></td>
+                        <td th:text="${gCan.getLocation().getAddress()}"></td>
+                        <td>
+                            <a href="/upravaPopelnice" type="button" class="btn btn-primary"><i class="bi bi-pencil"></i> Upravit</a>
+                        </td>
+                    </tr>
+                </div>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<script th:inline="javascript">
+    var gCansList = [[${gCans}]];
+    var lon = gCansList[0].location.gpslon;
+    var lat = gCansList[0].location.gpslat;
+    var list = [[${gCans}]];
+    var center = SMap.Coords.fromWGS84(lat, lon);
+    var m = new SMap(JAK.gel("mapa"), center, 13);
+    m.addDefaultLayer(SMap.DEF_BASE).enable();
+    m.addDefaultControls();
+
+    var layer = new SMap.Layer.Marker();
+    m.addLayer(layer);
+
+    list.forEach(
+        addMarkers
+    )
+    layer.enable();
+
+    function addMarkers(item) {
+        center = SMap.Coords.fromWGS84(item.location.gpslat, item.location.gpslon);
+        var options = {title: item.garbageType};
+        var marker = new SMap.Marker(center, item.id, options); //id markeru musí být unikátní
+        layer.addMarker(marker);
+    }
+</script>
+</body>
+</html>
