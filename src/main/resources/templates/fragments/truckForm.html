@@ -1,0 +1,41 @@
+<form method="post" th:object="${formTruck}">
+    <div class="row">
+        <div class="col-5" style="margin-top: 15px;">
+            <div class="form-floating">
+                <input class="form-control" id="licencePlate" placeholder="text" th:field="*{licencePlate}">
+                <label for="licencePlate">Poznávací značka:</label>
+            </div>
+        </div>
+
+        <div class=" col-5" style="margin-top: 15px;">
+            <div class="form-floating">
+                <input class="form-control" id="make" placeholder="text" th:field="*{make}">
+                <label for="make">Výrobce:</label>
+            </div>
+        </div>
+
+        <div class=" col-5" style="margin-top: 15px;">
+            <div class="form-floating">
+                <input class="form-control" id="model" placeholder="text" th:field="*{model}">
+                <label for="model">Model:</label>
+            </div>
+        </div>
+
+        <div class=" col-5" style="margin-top: 15px;">
+            <div class="form-floating">
+                <input class="form-control" id="capacity" placeholder="text" th:field="*{capacity}">
+                <label for="capacity">Kapacita:</label>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-check">
+        <div th:each="landfill: ${landfills}">
+            <input class="form-check-input" type="radio" name="landfillsRadios" th:id="${landfill.id}" th:value="${landfill.id}" th:field="*{homeLandfillId}" checked="">
+            <label class="form-check-label" th:for="${landfill.id}" th:text="${landfill.location.getAddress()}">
+            </label>
+        </div>
+    </div>
+
+    <input class="btn btn-primary" type="submit" style="margin-top: 15px;" value="Uložit svozový vůz">
+</form>

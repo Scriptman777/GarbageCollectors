@@ -34,7 +34,7 @@ public class GTruckController {
 
     @GetMapping("/vytvoritSvozovyVuz")
     public String createTruck(Model model) {
-        model.addAttribute("newTruck", new GTruck());
+        model.addAttribute("formTruck", new GTruck());
         model.addAttribute("landfills", landfillService.getLandfills());
         return "vytvoritSvozovyVuz";
     }
@@ -59,7 +59,7 @@ public class GTruckController {
         }
 
         model.addAttribute("landfills", landfillService.getLandfills());
-        model.addAttribute("editTruck", gtruck);
+        model.addAttribute("formTruck", gtruck);
 
         return "upravaSvozovehoVozu";
     }
