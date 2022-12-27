@@ -1,9 +1,7 @@
 package com.UHK.garbagecollectors.model;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -15,8 +13,14 @@ public class Landfill {
     private int capacity;
 
     @OneToMany(mappedBy = "homeLandfill")
-    private List<GTruck> stationedTrucks;
+    private List<GTruck> stationedTrucks = new ArrayList<>();
 
+    @OneToOne
+    private Location location;
+
+    public Location getLocation() {return location;}
+
+    public void setLocation(Location location) {this.location = location;}
 
     public List<GTruck> getStationedTrucks() {
         return stationedTrucks;
