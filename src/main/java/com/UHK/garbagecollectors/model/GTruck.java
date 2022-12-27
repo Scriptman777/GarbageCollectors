@@ -15,7 +15,7 @@ public class GTruck extends AbstractVehicle {
     private Landfill homeLandfill;
 
     @Transient
-    private int homeLandfillId;
+    private int homeLandfillId = -1;
 
 
     public List<GType> getSupportedGarbageTypes() {
@@ -27,6 +27,10 @@ public class GTruck extends AbstractVehicle {
     }
 
     public int getHomeLandfillId() {
+        if (homeLandfillId == -1) {
+            homeLandfillId = homeLandfill.getId();
+            return homeLandfillId;
+        }
         return homeLandfillId;
     }
 

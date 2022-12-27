@@ -29,13 +29,25 @@
         </div>
     </div>
 
-    <div class="form-check">
-        <div th:each="landfill: ${landfills}">
-            <input class="form-check-input" type="radio" name="landfillsRadios" th:id="${landfill.id}" th:value="${landfill.id}" th:field="*{homeLandfillId}" checked="">
-            <label class="form-check-label" th:for="${landfill.id}" th:text="${landfill.location.getAddress()}">
-            </label>
-        </div>
+    <br>
+
+    <h3>Podporované typy odpadu</h3>
+    <div th:each="gtype: ${gTypes}">
+        <input class="form-check-input" type="checkbox" th:value="${gtype}" th:id="${gtype}" th:field="*{supportedGarbageTypes}">
+        <label class="form-check-label" th:for="${gtype}" th:text="${gtype}">
+        </label>
     </div>
+
+    <br>
+
+    <h3>Domovská skládka</h3>
+    <div th:each="landfill: ${landfills}">
+        <input class="form-check-input" type="radio" name="landfillsRadios" th:id="${landfill.id}" th:value="${landfill.id}" th:field="*{homeLandfillId}" checked="${landfill.id == homeLandfillId}">
+        <label class="form-check-label" th:for="${landfill.id}" th:text="${landfill.location.getAddress()}">
+        </label>
+    </div>
+
+
 
     <input class="btn btn-primary" type="submit" style="margin-top: 15px;" value="Uložit svozový vůz">
 </form>

@@ -13,6 +13,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import java.util.Arrays;
 import java.util.List;
 
 @Controller
@@ -36,6 +37,7 @@ public class GTruckController {
     public String createTruck(Model model) {
         model.addAttribute("formTruck", new GTruck());
         model.addAttribute("landfills", landfillService.getLandfills());
+        model.addAttribute("gTypes", Arrays.asList(GType.values()));
         return "vytvoritSvozovyVuz";
     }
 
@@ -60,6 +62,7 @@ public class GTruckController {
 
         model.addAttribute("landfills", landfillService.getLandfills());
         model.addAttribute("formTruck", gtruck);
+        model.addAttribute("gTypes", Arrays.asList(GType.values()));
 
         return "upravaSvozovehoVozu";
     }

@@ -78,3 +78,131 @@
          style="margin-top: 15px;" value="Uložit změny">
 </form>
 <br>
+
+<script>
+  var lon = [[${mapCenterLon}]];
+  ;
+  var lat = [[${mapCenterLat}]];
+  console.log(lon);
+  console.log(lat);
+
+  var center = SMap.Coords.fromWGS84(lat, lon);
+  var m = new SMap(JAK.gel("m"), center, 13);
+  m.addDefaultLayer(SMap.DEF_BASE).enable();
+  m.addDefaultControls();
+
+  var layer = new SMap.Layer.Marker();
+  m.addLayer(layer);
+  layer.enable();
+
+  var options = {};
+
+  var marker = new SMap.Marker(center, "anotherMarker", options);
+  marker.decorate(SMap.Marker.Feature.Draggable);
+  layer.addMarker(marker);
+
+  var signals = m.getSignals();
+  signals.addListener(window, "marker-drag-stop", dragStop);
+
+
+  function geokoduj(e, elm) {  /* Voláno při odeslání */
+    JAK.Events.cancelDef(e); /* Zamezit odeslání formuláře */
+    var city = JAK.gel("city").value;
+    var streetValue = JAK.gel("street").value;
+
+    if (streetValue == "---") {
+      streetValue = " ";
+    }
+    var street = streetValue;
+    var query = city + "," + street;
+    console.log(query);
+    new SMap.Geocoder(query, odpoved);
+  }
+
+  function odpoved(geocoder) { /* Odpověď */
+    if (!geocoder.getResults()[0].results.length) {
+      alert("Tohle neznáme.");
+      return;
+    }
+
+    var results = geocoder.getResults()[0].results;
+    var item = results.shift();
+    var foundCoords = item.coords.toWGS84();
+    console.log(foundCoords[0] + "|" + foundCoords[1]);
+    var lat = foundCoords[0];
+    var lon = foundCoords[1];
+    var center = SMap.Coords.fromWGS84(lat, lon);
+    document.getElementById("outLat").innerHTML = lat;
+    document.getElementById("outLon").innerHTML = lon;
+
+    var m = new SMap(JAK.gel("m"), center, 13);
+    m.addDefaultLayer(SMap.DEF_BASE).enable();
+    m.addDefaultControls();
+
+    var layer = new SMap.Layer.Marker();
+    m.addLayer(layer);
+    layer.enable();
+
+    var options = {};
+    var marker = new SMap.Marker(center, "foundLocation", options);
+    marker.decorate(SMap.Marker.Feature.Draggable);
+    layer.addMarker(marker);
+
+    var signals = m.getSignals();
+    signals.addListener(window, "marker-drag-stop", dragStop);
+  }
+
+  var odpoved2 = function (geocoder) {
+    var results = geocoder.getResults();
+    var city;
+    var streetOut = "";
+    var houseNumberOut;
+    var street = null;
+    var ward;
+    for (const element of results.items) {
+      if (element.type == "muni") {
+        city = element.name
+      }
+      if (element.type == "addr") {
+        street = element.name
+      }
+      if (element.type == "ward") {
+        ward = element.name
+      }
+    }
+
+    document.getElementById("city").value = city;
+    document.getElementById("cityOut").value = city;
+
+    if (!street) {
+      document.getElementById("streetOut").value = ward;
+      document.getElementById("houseNumberOut").value = "---";
+      document.getElementById("street").value = ward;
+    } else {
+      document.getElementById("street").value = street;
+      const streetArray = street.split(" ");
+      houseNumberOut = streetArray[streetArray.length - 1];
+      document.getElementById("houseNumberOut").value = houseNumberOut;
+
+      for (var i = 0; i < streetArray.length - 1; i++) {
+        streetOut += streetOut + " " + streetArray[i];
+      }
+      document.getElementById("streetOut").value = streetOut;
+    }
+  }
+
+  function dragStop(e) {
+    var coords = e.target.getCoords();
+    var draggedCoords = coords.toWGS84();
+    var outLat = draggedCoords[0];
+    var outLon = draggedCoords[1];
+    document.getElementById("outLat").value = outLat;
+    document.getElementById("outLon").value = outLon;
+
+    var cords = SMap.Coords.fromWGS84(outLat, outLon);
+    new SMap.Geocoder.Reverse(cords, odpoved2);
+  }
+
+  var form = JAK.gel("form");
+  JAK.Events.addListener(form, "submit", geokoduj); /* Při odeslání formuláře pustit geokódování */
+</script>
