@@ -23,6 +23,8 @@ public class GarbageTruckService {
     }
 
     public List<GTruck> getGarbageTrucks() {
-        return Collections.unmodifiableList(this.repo.findAll());
+        return Collections.unmodifiableList(repo.findAll());
     }
+
+    public GTruck getById(int id) {return repo.getReferenceById(id); }
 }

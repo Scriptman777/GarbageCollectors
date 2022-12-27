@@ -22,6 +22,11 @@ public class DbMockService {
 
 
     public void createMockData() {
+
+        if (garbageCanService.getGarbageCans().size() != 0) {
+            return;
+        }
+
         GCan testCan1 = new GCan();
         testCan1.setGarbageType(GType.Bio);
         testCan1.setVolume(10);
@@ -30,7 +35,7 @@ public class DbMockService {
         double lon = 50.203789947631236d;
         testLoc1.setCity("Hradec Králové");
         testLoc1.setStreet("Some Street");
-        testLoc1.setHouseNumber("123-Who cares");
+        testLoc1.setHouseNumber("111-Who cares");
         testLoc1.setGPSlat(lat);
         testLoc1.setGPSlon(lon);
         testCan1.setLocation(testLoc1);
@@ -43,7 +48,7 @@ public class DbMockService {
         lon = 50.20422257213757d;
         testLoc2.setCity("Hradec Králové");
         testLoc2.setStreet("Some Street");
-        testLoc2.setHouseNumber("123-Who cares");
+        testLoc2.setHouseNumber("321-Who cares");
         testLoc2.setGPSlat(lat);
         testLoc2.setGPSlon(lon);
         testCan2.setLocation(testLoc2);
@@ -61,9 +66,15 @@ public class DbMockService {
         testLoc3.setGPSlon(lon);
         testCan3.setLocation(testLoc3);
 
+
+
         Landfill lf1 = new Landfill();
         lf1.setLocation(testLoc3);
         lf1.setCapacity(1000000);
+
+        Landfill lf2 = new Landfill();
+        lf2.setLocation(testLoc1);
+        lf2.setCapacity(1010101);
 
         GTruck gTruck1 = new GTruck();
         gTruck1.setCapacity(5300);
@@ -73,19 +84,19 @@ public class DbMockService {
         gTruck1.setHomeLandfill(lf1);
         lf1.getStationedTrucks().add(gTruck1);
 
-        if (garbageCanService.getGarbageCans().size() == 0) {
-            locationService.add(testLoc1);
-            garbageCanService.add(testCan1);
+        locationService.add(testLoc1);
+        garbageCanService.add(testCan1);
 
-            locationService.add(testLoc2);
-            garbageCanService.add(testCan2);
+        locationService.add(testLoc2);
+        garbageCanService.add(testCan2);
 
-            locationService.add(testLoc3);
-            garbageCanService.add(testCan3);
+        locationService.add(testLoc3);
+        garbageCanService.add(testCan3);
 
-            landfillService.add(lf1);
-            garbageTruckService.add(gTruck1);
+        landfillService.add(lf1);
+        landfillService.add(lf2);
+        garbageTruckService.add(gTruck1);
 
-        }
+
     }
 }

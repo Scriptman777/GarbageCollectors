@@ -57,20 +57,20 @@ public class GCanController {
     }
 
     @GetMapping("/upravaPopelnice")
-    public String upravaPopelnice(int id, Model model) {
-        List<GCan> gcans = garbageCanService.getGarbageCans();
-        GCan gcan = new GCan();
-        for (GCan gcanTmp : gcans) {
-            if (gcanTmp.getId() == id){
-                gcan = gcanTmp;
-                break;
-            }
+    public String upravaPopelnice(int id, Model model) throws Exception {
+        GCan gcan = garbageCanService.getById(id);
+
+        if (gcan != null) {
+            model.addAttribute("gcan", gcan);
+            model.addAttribute("location", gcan.getLocation());
+            model.addAttribute("mapCenterLat", gcan.getLocation().getGPSlat());
+            model.addAttribute("mapCenterLon", gcan.getLocation().getGPSlon());
+            return "upravaPopelnice";
         }
-        model.addAttribute("gcan", gcan);
-        model.addAttribute("location", gcan.getLocation());
-        model.addAttribute("mapCenterLat", gcan.getLocation().getGPSlat());
-        model.addAttribute("mapCenterLon", gcan.getLocation().getGPSlon());
-        return "upravaPopelnice";
+        else {
+            throw new Exception("GCan with id " + id + " does not exist");
+        }
+
     }
 
     @PostMapping("/upravaPopelnice")
@@ -85,15 +85,9 @@ public class GCanController {
         gcan.setId(id);
         gcan.setLocation(location);
 
-        List<GCan> gcans = garbageCanService.getGarbageCans();
-        int locationId = 0;
-        for (GCan gcanTmp : gcans) {
-            if (gcanTmp.getId() == id){
-                locationId = gcanTmp.getLocation().getId();
-                break;
-            }
-        }
-        location.setId(locationId);
+        GCan tempGcan = garbageCanService.getById(id);
+
+        location.setId(tempGcan.getLocation().getId());
         gcan.setLocation(location);
         locationService.add(location);
         garbageCanService.add(gcan);

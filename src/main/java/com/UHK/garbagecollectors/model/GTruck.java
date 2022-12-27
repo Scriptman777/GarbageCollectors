@@ -14,6 +14,9 @@ public class GTruck extends AbstractVehicle {
     @ManyToOne
     private Landfill homeLandfill;
 
+    @Transient
+    private int homeLandfillId;
+
 
     public List<GType> getSupportedGarbageTypes() {
         return supportedGarbageTypes;
@@ -21,6 +24,14 @@ public class GTruck extends AbstractVehicle {
 
     public void setSupportedGarbageTypes(List<GType> supportedGarbageTypes) {
         this.supportedGarbageTypes = supportedGarbageTypes;
+    }
+
+    public int getHomeLandfillId() {
+        return homeLandfillId;
+    }
+
+    public void setHomeLandfillId(int homeLandfillId) {
+        this.homeLandfillId = homeLandfillId;
     }
 
     public int getCapacity() {

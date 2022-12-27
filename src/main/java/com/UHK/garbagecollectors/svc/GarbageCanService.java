@@ -24,8 +24,10 @@ public class GarbageCanService {
     }
 
     public List<GCan> getGarbageCans() {
-        return Collections.unmodifiableList(this.repo.findAll());
+        return Collections.unmodifiableList(repo.findAll());
     }
+
+    public GCan getById(int id) {return repo.getReferenceById(id); }
 
     public Location getCenterLocation(){
         List<GCan> gCans = this.repo.findAll();
