@@ -42,7 +42,7 @@
 
     <h3>Domovská skládka</h3>
     <div th:each="landfill: ${landfills}">
-        <input class="form-check-input" type="radio" name="landfillsRadios" th:id="${landfill.id}" th:value="${landfill.id}" th:field="*{homeLandfillId}" checked="${landfill.id == homeLandfillId}">
+        <input class="form-check-input"  type="radio" name="landfillsRadios" th:id="${landfill.id}" th:value="${landfill.id}" th:field="*{homeLandfillId}" checked="${landfill.id == getHomeLandfillId()}">
         <label class="form-check-label" th:for="${landfill.id}" th:text="${landfill.location.getAddress()}">
         </label>
     </div>

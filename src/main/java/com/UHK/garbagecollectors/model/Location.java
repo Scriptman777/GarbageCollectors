@@ -23,7 +23,7 @@ public class Location {
      */
     public String getAddress() {
         String outStr = city;
-        outStr += street.length() > 0 ? ", " + street + houseNumber : "";
+        outStr += street.length() > 0 ? ", " + street + " " + houseNumber : "";
         return outStr;
     }
 

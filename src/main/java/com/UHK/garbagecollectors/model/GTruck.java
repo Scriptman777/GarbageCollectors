@@ -28,7 +28,7 @@ public class GTruck extends AbstractVehicle {
 
     public int getHomeLandfillId() {
         if (homeLandfillId == -1) {
-            homeLandfillId = homeLandfill.getId();
+            homeLandfillId = homeLandfill == null ? -1 : homeLandfill.getId();
             return homeLandfillId;
         }
         return homeLandfillId;
