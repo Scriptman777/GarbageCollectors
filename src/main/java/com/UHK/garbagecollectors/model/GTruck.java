@@ -53,4 +53,9 @@ public class GTruck extends AbstractVehicle {
     public void setHomeLandfill(Landfill homeLandfill) {
         this.homeLandfill = homeLandfill;
     }
+
+    @Override
+    public String toString() {
+        return make + " " + model + " | " + licencePlate + " | " + homeLandfill.getLocation().getCity();
+    }
 }

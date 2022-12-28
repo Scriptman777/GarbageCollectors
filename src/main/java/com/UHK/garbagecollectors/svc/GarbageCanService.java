@@ -6,8 +6,7 @@ import com.UHK.garbagecollectors.repos.GCanRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 @Service
 public class GarbageCanService {
@@ -28,6 +27,10 @@ public class GarbageCanService {
     }
 
     public GCan getById(int id) {return repo.getReferenceById(id); }
+
+    public List<GCan> getByCity(String city) {
+        return repo.findByLocationCityContaining(city);
+    }
 
     public Location getCenterLocation(){
         List<GCan> gCans = this.repo.findAll();
@@ -52,4 +55,13 @@ public class GarbageCanService {
     }
 
 
+    public List<GCan> getByCities(List<String> cities) {
+        Set<GCan> result = new HashSet<>();
+
+        for (String city: cities) {
+            List<GCan> tempList = repo.findByLocationCityContaining(city);
+            result.addAll(tempList);
+        }
+        return new ArrayList<>(result);
+    }
 }

@@ -13,11 +13,14 @@ public class DbMockService {
 
     private GarbageTruckService garbageTruckService;
 
-    public DbMockService(GarbageCanService gcs, LocationService ls, LandfillService lfs, GarbageTruckService gts) {
+    private GarbageCollectionService garbageCollectionService;
+
+    public DbMockService(GarbageCanService gcs, LocationService ls, LandfillService lfs, GarbageTruckService gts, GarbageCollectionService gcls) {
         this.garbageCanService = gcs;
         this.locationService = ls;
         this.landfillService = lfs;
         this.garbageTruckService = gts;
+        this.garbageCollectionService = gcls;
     }
 
 
@@ -66,7 +69,18 @@ public class DbMockService {
         testLoc3.setGPSlon(lon);
         testCan3.setLocation(testLoc3);
 
-
+        GCan testCan4 = new GCan();
+        testCan4.setGarbageType(GType.Kovy);
+        testCan4.setVolume(10);
+        Location testLoc4 = new Location();
+        lat = 16.162888258680308d;
+        lon = 50.41670457933539d;
+        testLoc4.setCity("Náchod");
+        testLoc4.setStreet("Test");
+        testLoc4.setHouseNumber("555");
+        testLoc4.setGPSlat(lat);
+        testLoc4.setGPSlon(lon);
+        testCan4.setLocation(testLoc4);
 
         Landfill lf1 = new Landfill();
         lf1.setLocation(testLoc3);
@@ -84,6 +98,30 @@ public class DbMockService {
         gTruck1.setHomeLandfill(lf1);
         lf1.getStationedTrucks().add(gTruck1);
 
+        GTruck gTruck2 = new GTruck();
+        gTruck2.setCapacity(5200);
+        gTruck2.setMake("Mercedes Benz");
+        gTruck2.setModel("Econic NGT 2628");
+        gTruck2.setLicencePlate("1H17513");
+        gTruck2.setHomeLandfill(lf1);
+        lf1.getStationedTrucks().add(gTruck2);
+
+        GTruck gTruck3 = new GTruck();
+        gTruck3.setCapacity(6000);
+        gTruck3.setMake("Scania");
+        gTruck3.setModel("R-series 3560");
+        gTruck3.setLicencePlate("5H31592");
+        gTruck3.setHomeLandfill(lf2);
+        lf2.getStationedTrucks().add(gTruck3);
+
+
+        GCollection gCollection1 = new GCollection();
+        gCollection1.setName("Test svoz 1");
+        gCollection1.getCans().add(testCan1);
+        gCollection1.getCans().add(testCan2);
+        gCollection1.getCans().add(testCan3);
+        gCollection1.setAssignedTruck(gTruck1);
+
         locationService.add(testLoc1);
         garbageCanService.add(testCan1);
 
@@ -93,9 +131,16 @@ public class DbMockService {
         locationService.add(testLoc3);
         garbageCanService.add(testCan3);
 
+        locationService.add(testLoc4);
+        garbageCanService.add(testCan4);
+
         landfillService.add(lf1);
         landfillService.add(lf2);
         garbageTruckService.add(gTruck1);
+        garbageTruckService.add(gTruck2);
+        garbageTruckService.add(gTruck3);
+
+        garbageCollectionService.add(gCollection1);
 
 
     }

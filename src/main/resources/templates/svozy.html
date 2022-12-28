@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Svozy</title>
+  <div th:include="fragments/head"></div>
+</head>
+<body>
+<div th:replace="fragments/navbar"></div>
+
+<div class="container">
+  <div class="row">
+    <div class="col-2"></div>
+    <div class="col-8" style="text-align: center;">
+      <br>
+      <h1>Přehled svozů <a href="/vytvoritSvoz" type="button" class="btn btn-primary" style="margin-left: 0.8em;"><i class="bi bi-plus-circle"></i></a></h1>
+      <br>
+      <table class="table table-hover">
+        <thead>
+        <tr>
+          <th scope="col">Název</th>
+          <th scope="col">Počet nádob</th>
+          <th scope="col">Města</th>
+          <th scope="col">Vozidlo</th>
+
+        </tr>
+        </thead>
+        <tbody>
+        <div th:each="collection: ${collections}">
+          <tr>
+            <td th:text="${collection.name}"></td>
+            <td th:text="${collection.cans.size()}"></td>
+            <td th:text="${collection.getCities()}"></td>
+            <td th:text="${collection.getAssignedTruck().toString()}"></td>
+            <td>
+              <a th:href="@{/upravaSvozu(id=${collection.id})}" class="btn btn-primary"><i class="bi bi-pencil-fill"></i> Upravit</a>
+            </td>
+          </tr>
+        </div>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+</body>
+</html>

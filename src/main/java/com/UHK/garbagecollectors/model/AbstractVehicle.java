@@ -10,9 +10,9 @@ public abstract class AbstractVehicle {
     @Id
     @GeneratedValue(strategy = GenerationType.TABLE)
     private int id;
-    private String licencePlate;
-    private String model;
-    private String make;
+    protected String licencePlate;
+    protected String model;
+    protected String make;
 
     @ManyToOne
     private Garage mainGarage;

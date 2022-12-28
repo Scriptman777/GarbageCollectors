@@ -17,9 +17,6 @@ public class Contract {
     private List<GCollection> collections = new ArrayList<>();
 
 
-
-
-
     public Date getDateCreated() {
         return dateCreated;
     }

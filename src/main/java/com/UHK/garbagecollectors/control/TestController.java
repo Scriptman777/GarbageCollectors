@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -35,15 +36,21 @@ public class TestController {
 
 
 
-
-
-
     @GetMapping("/simpleMap")
     public String simpleMap(Model model) {
         double lon = 50.2035200d;
         double lat = 15.8318111d;
         model.addAttribute("lon", lon);
         model.addAttribute("lat", lat);
+
+        List<String> cities = new ArrayList<>();
+        cities.add("Náchod");
+        cities.add("Hradec");
+
+        List<GCan> results = garbageCanService.getByCities(cities);
+        System.out.println(results);
+
+
         return "simpleMap";
     }
 

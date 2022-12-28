@@ -12,20 +12,8 @@ public class GCan {
     @Enumerated(EnumType.STRING)
     private GType garbageType;
 
-    @ManyToOne
-    private GCollection collection;
-
     @OneToOne
     private Location location;
-
-
-    public GCollection getCollection() {
-        return collection;
-    }
-
-    public void setCollection(GCollection collection) {
-        this.collection = collection;
-    }
 
     public int getId() {
         return id;
@@ -56,4 +44,10 @@ public class GCan {
     public void setLocation(Location location) {
         this.location = location;
     }
+
+    @Override
+    public String toString() {
+        return getLocation().getAddress() + " | " + getGarbageType() + " | " + getVolume() + "l" ;
+    }
+
 }
