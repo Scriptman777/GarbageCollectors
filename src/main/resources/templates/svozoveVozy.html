@@ -36,10 +36,10 @@
                         <td th:text="${gTruck.homeLandfill.location.getAddress()}"></td>
                         <td th:text="${gTruck.supportedGarbageTypes}"></td>
                         <td>
-                            <a th:href="@{/upravaSvozovehoVozu(id=${gTruck.id})}" class="btn btn-primary"><i class="bi bi-pencil-fill"></i> Upravit</a>
+                            <a th:href="@{/upravaSvozovehoVozu(id=${gTruck.id})}" class="btn btn-primary"><i class="bi bi-pencil-fill"></i></a>
                         </td>
                         <td>
-                            <button class="btn btn-danger" data-toggle="modal" th:data-target="'#delete_' + ${gTruck.id}"><i class="bi bi-trash-fill"></i> Smazat</button>
+                            <button class="btn btn-danger" data-toggle="modal" th:data-target="'#delete_' + ${gTruck.id}"><i class="bi bi-trash-fill"></i></button>
 
                             <div class="modal fade" th:id="'delete_' + ${gTruck.id}">
                                 <div class="modal-dialog" role="document">
