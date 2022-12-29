@@ -23,6 +23,10 @@ public class LocationService {
         repo.save(newObj);
     }
 
+    public void deleteLocationById(int id) {
+        repo.deleteById(id);
+    }
+
     public List<Location> getLocations() {
         return Collections.unmodifiableList(this.repo.findAll());
     }

@@ -31,14 +31,46 @@
             <td th:text="${collection.name}"></td>
             <td th:text="${collection.cans.size()}"></td>
             <td th:text="${collection.getCities()}"></td>
-            <td th:text="${collection.getAssignedTruck().toString()}"></td>
+            <td th:if="${collection.getAssignedTruck() != null}"} th:text="${collection.getAssignedTruck().toString()}"></td>
+            <td th:if="${collection.getAssignedTruck() == null}"}>NEPŘIŘAZENO</td>
             <td>
               <a th:href="@{/upravaSvozu(id=${collection.id})}" class="btn btn-primary"><i class="bi bi-pencil-fill"></i> Upravit</a>
+            </td>
+            <td>
+              <button class="btn btn-danger" data-toggle="modal" data-target="#deleteModal"><i class="bi bi-trash-fill"></i> Smazat</button>
+
+              <div class="modal fade" id="deleteModal">
+                <div class="modal-dialog" role="document">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h5 class="modal-title">Potvrzení</h5>
+                      <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true"></span>
+                      </button>
+                    </div>
+                    <div class="modal-body">
+                      <p>Opravdu chcete smazat tento svoz?</p>
+                    </div>
+                    <div class="modal-footer">
+                      <form action="#" th:action="@{/smazaniSvozu(id=${collection.id})}" th:method="delete" >
+                        <button class="btn btn-danger" type="submit">Smazat</button>
+                      </form>
+                      <button type="button" class="btn btn-secondary" data-dismiss="modal">Zrušit</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
             </td>
           </tr>
         </div>
         </tbody>
       </table>
+
+
+
+
+
     </div>
   </div>
 </div>

@@ -8,6 +8,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 
 import java.util.List;
 
@@ -95,6 +97,12 @@ public class GCanController {
         return "redirect:/";
     }
 
+    @RequestMapping(value = "/smazaniPopelnice", method = RequestMethod.DELETE)
+    public String smazaniPopelnice(int id) {
+
+        garbageCanService.deleteCanById(id);
+        return "redirect:/";
+    }
 
 
 

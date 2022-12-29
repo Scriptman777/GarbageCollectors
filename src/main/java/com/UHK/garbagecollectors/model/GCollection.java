@@ -78,4 +78,12 @@ public class GCollection {
     public void setCans(List<GCan> cans) {
         this.cans = cans;
     }
+
+    public void removeCan(GCan deletedCan) {
+        cans.remove(deletedCan);
+    }
+
+    public void unassignTruck(GTruck deletedTruck) {
+        assignedTruck = null;
+    }
 }

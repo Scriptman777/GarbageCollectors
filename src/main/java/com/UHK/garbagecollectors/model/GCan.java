@@ -12,7 +12,7 @@ public class GCan {
     @Enumerated(EnumType.STRING)
     private GType garbageType;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.REMOVE)
     private Location location;
 
     public int getId() {

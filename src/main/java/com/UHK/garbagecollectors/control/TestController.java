@@ -1,10 +1,7 @@
 package com.UHK.garbagecollectors.control;
 
 import com.UHK.garbagecollectors.model.*;
-import com.UHK.garbagecollectors.svc.GarbageCanService;
-import com.UHK.garbagecollectors.svc.GarbageTruckService;
-import com.UHK.garbagecollectors.svc.LandfillService;
-import com.UHK.garbagecollectors.svc.LocationService;
+import com.UHK.garbagecollectors.svc.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -26,12 +23,15 @@ public class TestController {
     private GarbageTruckService garbageTruckService;
     private LandfillService landfillService;
 
+    private DbMockService dbMockService;
+
     @Autowired
-    public TestController(GarbageCanService gcs, LocationService ls, GarbageTruckService gts, LandfillService lfs) {
+    public TestController(GarbageCanService gcs, LocationService ls, GarbageTruckService gts, LandfillService lfs, DbMockService dbm) {
         this.garbageCanService = gcs;
         this.locationService = ls;
         this.garbageTruckService = gts;
         this.landfillService = lfs;
+        this.dbMockService = dbm;
     }
 
 
@@ -84,7 +84,6 @@ public class TestController {
 
         return "dbTest";
     }
-
 
 
 

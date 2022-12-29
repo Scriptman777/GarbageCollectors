@@ -8,9 +8,7 @@ import com.UHK.garbagecollectors.svc.GarbageCollectionService;
 import com.UHK.garbagecollectors.svc.GarbageTruckService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Arrays;
 import java.util.List;
@@ -85,6 +83,14 @@ public class GCollectionController {
         editedCollection.setId(id);
         garbageCollectionService.add(editedCollection);
 
+        return "redirect:/svozy";
+    }
+
+
+    @RequestMapping(value = "/smazaniSvozu", method = RequestMethod.DELETE)
+    public String smazaniSvozu(int id) {
+
+        garbageCollectionService.deleteCollectionById(id);
         return "redirect:/svozy";
     }
 

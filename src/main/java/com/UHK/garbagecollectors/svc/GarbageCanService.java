@@ -1,8 +1,11 @@
 package com.UHK.garbagecollectors.svc;
 
 import com.UHK.garbagecollectors.model.GCan;
+import com.UHK.garbagecollectors.model.GCollection;
 import com.UHK.garbagecollectors.model.Location;
 import com.UHK.garbagecollectors.repos.GCanRepository;
+import com.UHK.garbagecollectors.repos.GCollectionRepository;
+import com.UHK.garbagecollectors.repos.LocationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,10 +15,12 @@ import java.util.*;
 public class GarbageCanService {
 
     private GCanRepository repo;
+    private GCollectionRepository colRepo;
 
     @Autowired
-    public GarbageCanService(GCanRepository repo){
+    public GarbageCanService(GCanRepository repo, GCollectionRepository colRepo){
         this.repo = repo;
+        this.colRepo = colRepo;
     }
 
     public void add(GCan newObj) {
@@ -63,5 +68,17 @@ public class GarbageCanService {
             result.addAll(tempList);
         }
         return new ArrayList<>(result);
+    }
+
+    public void deleteCanById(int id) {
+        GCan deletedCan = repo.getReferenceById(id);
+        List<GCollection> collections = colRepo.findAllByCansContaining(deletedCan);
+
+        for (GCollection gCol: collections) {
+            gCol.removeCan(deletedCan);
+            colRepo.save(gCol);
+        }
+
+        repo.deleteById(id);
     }
 }

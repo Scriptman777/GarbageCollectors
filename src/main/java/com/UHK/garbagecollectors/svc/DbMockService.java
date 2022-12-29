@@ -1,32 +1,34 @@
 package com.UHK.garbagecollectors.svc;
 
 import com.UHK.garbagecollectors.model.*;
+import com.UHK.garbagecollectors.repos.*;
 import org.springframework.stereotype.Service;
 
 @Service
 public class DbMockService {
 
-    private GarbageCanService garbageCanService;
-    private LocationService locationService;
+    private GCanRepository gCanRepo;
 
-    private LandfillService landfillService;
+    private LocationRepository locationRepo;
 
-    private GarbageTruckService garbageTruckService;
+    private LandfillRepository landfillRepo;
 
-    private GarbageCollectionService garbageCollectionService;
+    private GTruckRepository gTruckRepo;
 
-    public DbMockService(GarbageCanService gcs, LocationService ls, LandfillService lfs, GarbageTruckService gts, GarbageCollectionService gcls) {
-        this.garbageCanService = gcs;
-        this.locationService = ls;
-        this.landfillService = lfs;
-        this.garbageTruckService = gts;
-        this.garbageCollectionService = gcls;
+    private GCollectionRepository gColRepo;
+
+    public DbMockService(GCanRepository gcs, LocationRepository ls, LandfillRepository lfs, GTruckRepository gts, GCollectionRepository gcls) {
+        this.gCanRepo = gcs;
+        this.locationRepo = ls;
+        this.landfillRepo = lfs;
+        this.gTruckRepo = gts;
+        this.gColRepo = gcls;
     }
 
 
     public void createMockData() {
 
-        if (garbageCanService.getGarbageCans().size() != 0) {
+        if (gCanRepo.findAll().size() != 0) {
             return;
         }
 
@@ -82,12 +84,33 @@ public class DbMockService {
         testLoc4.setGPSlon(lon);
         testCan4.setLocation(testLoc4);
 
+
+        Location testLoc5Landfill = new Location();
+        lat = 15.919369491429734d;
+        lon = 50.261773989757565d;
+        testLoc5Landfill.setCity("Černilov");
+        testLoc5Landfill.setStreet("Skládka");
+        testLoc5Landfill.setHouseNumber("12");
+        testLoc5Landfill.setGPSlat(lat);
+        testLoc5Landfill.setGPSlon(lon);
+
+        Location testLoc6Landfill = new Location();
+        lat = 50.31023771825909d;
+        lon = 516.159466978318072d;
+        testLoc6Landfill.setCity("Dobruška");
+        testLoc6Landfill.setStreet("Skládka");
+        testLoc6Landfill.setHouseNumber("3");
+        testLoc6Landfill.setGPSlat(lat);
+        testLoc6Landfill.setGPSlon(lon);
+
+
+
         Landfill lf1 = new Landfill();
-        lf1.setLocation(testLoc3);
+        lf1.setLocation(testLoc5Landfill);
         lf1.setCapacity(1000000);
 
         Landfill lf2 = new Landfill();
-        lf2.setLocation(testLoc1);
+        lf2.setLocation(testLoc6Landfill);
         lf2.setCapacity(1010101);
 
         GTruck gTruck1 = new GTruck();
@@ -122,26 +145,29 @@ public class DbMockService {
         gCollection1.getCans().add(testCan3);
         gCollection1.setAssignedTruck(gTruck1);
 
-        locationService.add(testLoc1);
-        garbageCanService.add(testCan1);
+        locationRepo.save(testLoc1);
+        gCanRepo.save(testCan1);
 
-        locationService.add(testLoc2);
-        garbageCanService.add(testCan2);
+        locationRepo.save(testLoc2);
+        gCanRepo.save(testCan2);
 
-        locationService.add(testLoc3);
-        garbageCanService.add(testCan3);
+        locationRepo.save(testLoc3);
+        gCanRepo.save(testCan3);
 
-        locationService.add(testLoc4);
-        garbageCanService.add(testCan4);
+        locationRepo.save(testLoc4);
+        gCanRepo.save(testCan4);
 
-        landfillService.add(lf1);
-        landfillService.add(lf2);
-        garbageTruckService.add(gTruck1);
-        garbageTruckService.add(gTruck2);
-        garbageTruckService.add(gTruck3);
+        locationRepo.save(testLoc5Landfill);
+        locationRepo.save(testLoc6Landfill);
+        landfillRepo.save(lf1);
+        landfillRepo.save(lf2);
 
-        garbageCollectionService.add(gCollection1);
+        gTruckRepo.save(gTruck1);
+        gTruckRepo.save(gTruck2);
+        gTruckRepo.save(gTruck3);
+        gColRepo.save(gCollection1);
 
 
     }
+
 }

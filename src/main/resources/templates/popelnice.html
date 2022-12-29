@@ -37,6 +37,32 @@
                         <td>
                             <a th:href="@{/upravaPopelnice(id=${gCan.id})}" class="btn btn-primary"><i class="bi bi-pencil-fill"></i> Upravit</a>
                         </td>
+                        <td>
+                            <button class="btn btn-danger" data-toggle="modal" th:data-target="'#delete_' + ${gCan.id}"><i class="bi bi-trash-fill"></i> Smazat</button>
+
+                            <div class="modal fade" th:id="'delete_' + ${gCan.id}">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title">Potvrzení</h5>
+                                            <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true"></span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <p>Opravdu chcete smazat tuto popelnici?</p>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <form action="#" th:action="@{/smazaniPopelnice(id=${gCan.id})}" th:method="delete" >
+                                                <button class="btn btn-danger" type="submit">Smazat</button>
+                                            </form>
+                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Zrušit</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </td>
                     </tr>
                 </div>
                 </tbody>

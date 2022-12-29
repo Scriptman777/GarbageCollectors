@@ -15,6 +15,14 @@ public class GarbageCollectionService {
 
     public GCollection getById(int id) {return repo.getReferenceById(id); }
 
+    public void deleteCollection(GCollection collection){
+        repo.delete(collection);
+    }
+
+    public void deleteCollectionById(int id) {
+        repo.deleteById(id);
+    }
+
     @Autowired
     public GarbageCollectionService(GCollectionRepository repo){
         this.repo = repo;
