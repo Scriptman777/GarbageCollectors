@@ -1,5 +1,7 @@
 package com.UHK.garbagecollectors.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import javax.persistence.*;
 import java.util.List;
 
@@ -12,6 +14,7 @@ public class GTruck extends AbstractVehicle {
     private int capacity;
 
     @ManyToOne
+    @JsonBackReference
     private Landfill homeLandfill;
 
     @Transient

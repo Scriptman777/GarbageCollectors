@@ -1,5 +1,7 @@
 package com.UHK.garbagecollectors.model;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -13,6 +15,7 @@ public class Landfill {
     private int capacity;
 
     @OneToMany(mappedBy = "homeLandfill")
+    @JsonManagedReference
     private List<GTruck> stationedTrucks = new ArrayList<>();
 
     @OneToOne
