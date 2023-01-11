@@ -1,0 +1,200 @@
+<form id="form">
+  <div class="row">
+    <div class="col-2"></div>
+    <div class="form-group col-4">
+      <div class="form-floating">
+        <input class="form-control" placeholder="text" type="text" id="city" th:object="${location}"
+               th:value="*{city}">
+        <label for="city">Město:</label>
+      </div>
+    </div>
+
+    <div class="form-group col-4">
+      <div class="form-floating">
+        <input class="form-control" id="street" placeholder="text"
+               th:value="${location.street} + ' ' + ${location.houseNumber}">
+        <label for="street">Ulice a čp.:</label>
+      </div>
+    </div>
+    <div class=" col-1">
+      <button type="submit" value="Hledat" class="btn btn-primary" style="margin-top: 10px"><i class="bi bi-search"></i></button>
+    </div>
+  </div>
+</form>
+<br>
+<div id="m" style="width:70%; height:70%; margin-left: 15%;"></div>
+<br>
+<form method="post" th:object="${landfill}">
+  <div class="row">
+    <div class="form-group col-5">
+      <div class="form-floating">
+        <input class="form-control" id="cityOut" placeholder="text" th:object="${location}"
+               th:value="*{city}" name="city">
+        <label for="cityOut">Město:</label>
+      </div>
+    </div>
+
+    <div class="form-group col-5">
+      <div class="form-floating">
+        <input class="form-control" id="streetOut" placeholder="text" th:object="${location}"
+               th:value="*{street}" name="street">
+        <label for="streetOut">Ulice:</label>
+      </div>
+    </div>
+
+    <div class="form-group col-2">
+      <div class="form-floating">
+        <input class="form-control" id="houseNumberOut" placeholder="text" th:object="${location}"
+               th:value="*{houseNumber}" name="houseNumber">
+        <label for="houseNumberOut">Číslo popisné:</label>
+      </div>
+    </div>
+
+    <div class="form-group col-4" style="margin-top: 15px;">
+      <div class="form-floating">
+        <input class="form-control" id="volume" placeholder="text" th:field="*{capacity}">
+        <label for="volume">Objem v litrech:</label>
+      </div>
+    </div>
+  </div>
+
+  <input th:object="${location}" id="outLat" th:value="*{GPSlat}" name="GPSlat" type="hidden">
+  <input th:object="${location}" id="outLon" th:value="*{GPSlon}" name="GPSlon" type="hidden">
+  <input th:href="@{/upravaSkladky(id=${id})}" class="btn btn-primary" type="submit"
+         style="margin-top: 15px;" value="Uložit změny">
+</form>
+<br>
+
+<script>
+  var lon = [[${mapCenterLon}]];
+  if (isNaN(lon)){
+    lon = 50.08184714053058;
+  }
+
+  var lat = [[${mapCenterLat}]];
+  if (isNaN(lat)){
+    lat = 14.409985542297363;
+  }
+  console.log(lon);
+  console.log(lat);
+
+  var center = SMap.Coords.fromWGS84(lat, lon);
+  var m = new SMap(JAK.gel("m"), center, 13);
+  m.addDefaultLayer(SMap.DEF_BASE).enable();
+  m.addDefaultControls();
+
+  var layer = new SMap.Layer.Marker();
+  m.addLayer(layer);
+  layer.enable();
+
+  var options = {};
+
+  var marker = new SMap.Marker(center, "anotherMarker", options);
+  marker.decorate(SMap.Marker.Feature.Draggable);
+  layer.addMarker(marker);
+
+  var signals = m.getSignals();
+  signals.addListener(window, "marker-drag-stop", dragStop);
+
+
+  function geokoduj(e, elm) {  /* Voláno při odeslání */
+    JAK.Events.cancelDef(e); /* Zamezit odeslání formuláře */
+    var city = JAK.gel("city").value;
+    var streetValue = JAK.gel("street").value;
+
+    if (streetValue == "---") {
+      streetValue = " ";
+    }
+    var street = streetValue;
+    var query = city + "," + street;
+    console.log(query);
+    new SMap.Geocoder(query, odpoved);
+  }
+
+  function odpoved(geocoder) { /* Odpověď */
+    if (!geocoder.getResults()[0].results.length) {
+      alert("Tohle neznáme.");
+      return;
+    }
+
+    var results = geocoder.getResults()[0].results;
+    var item = results.shift();
+    var foundCoords = item.coords.toWGS84();
+    console.log(foundCoords[0] + "|" + foundCoords[1]);
+    var lat = foundCoords[0];
+    var lon = foundCoords[1];
+    var center = SMap.Coords.fromWGS84(lat, lon);
+    document.getElementById("outLat").innerHTML = lat;
+    document.getElementById("outLon").innerHTML = lon;
+
+    var m = new SMap(JAK.gel("m"), center, 13);
+    m.addDefaultLayer(SMap.DEF_BASE).enable();
+    m.addDefaultControls();
+
+    var layer = new SMap.Layer.Marker();
+    m.addLayer(layer);
+    layer.enable();
+
+    var options = {};
+    var marker = new SMap.Marker(center, "foundLocation", options);
+    marker.decorate(SMap.Marker.Feature.Draggable);
+    layer.addMarker(marker);
+
+    var signals = m.getSignals();
+    signals.addListener(window, "marker-drag-stop", dragStop);
+  }
+
+  var odpoved2 = function (geocoder) {
+    var results = geocoder.getResults();
+    var city;
+    var streetOut = "";
+    var houseNumberOut;
+    var street = null;
+    var ward;
+    for (const element of results.items) {
+      if (element.type == "muni") {
+        city = element.name
+      }
+      if (element.type == "addr") {
+        street = element.name
+      }
+      if (element.type == "ward") {
+        ward = element.name
+      }
+    }
+
+    document.getElementById("city").value = city;
+    document.getElementById("cityOut").value = city;
+
+    if (!street) {
+      document.getElementById("streetOut").value = ward;
+      document.getElementById("houseNumberOut").value = "---";
+      document.getElementById("street").value = ward;
+    } else {
+      document.getElementById("street").value = street;
+      const streetArray = street.split(" ");
+      houseNumberOut = streetArray[streetArray.length - 1];
+      document.getElementById("houseNumberOut").value = houseNumberOut;
+
+      for (var i = 0; i < streetArray.length - 1; i++) {
+        streetOut += streetOut + " " + streetArray[i];
+      }
+      document.getElementById("streetOut").value = streetOut;
+    }
+  }
+
+  function dragStop(e) {
+    var coords = e.target.getCoords();
+    var draggedCoords = coords.toWGS84();
+    var outLat = draggedCoords[0];
+    var outLon = draggedCoords[1];
+    document.getElementById("outLat").value = outLat;
+    document.getElementById("outLon").value = outLon;
+
+    var cords = SMap.Coords.fromWGS84(outLat, outLon);
+    new SMap.Geocoder.Reverse(cords, odpoved2);
+  }
+
+  var form = JAK.gel("form");
+  JAK.Events.addListener(form, "submit", geokoduj); /* Při odeslání formuláře pustit geokódování */
+</script>

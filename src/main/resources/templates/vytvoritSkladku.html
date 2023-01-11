@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Vytvoření popelnice</title>
+    <title>Vytvoření skládky</title>
     <script src="https://api.mapy.cz/loader.js"></script>
     <div th:include="fragments/head"></div> <!-- zde se načte hlavička (/templates/fragments/head.html) -->
     <script>Loader.load()</script>
@@ -16,13 +16,17 @@
         <div class="col-2"></div>
         <div class="col-8" style="text-align: center">
             <br>
-            <h1>Vytvoření popelnice</h1>
+            <h1>Vytvoření skládky</h1>
             <br>
 
             <!-- https://api.mapy.cz/view?page=geocoding -->
-            <div th:replace="fragments/gCanForm"></div>
+            <div th:replace="fragments/landfillForm"></div>
         </div>
     </div>
 </div>
+
+
+
+
 </body>
 </html>

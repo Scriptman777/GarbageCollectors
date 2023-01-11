@@ -95,15 +95,13 @@ public class DbMockService {
         testLoc5Landfill.setGPSlon(lon);
 
         Location testLoc6Landfill = new Location();
-        lat = 50.31023771825909d;
-        lon = 516.159466978318072d;
-        testLoc6Landfill.setCity("Dobruška");
+        lat = 15.879936985734304d;
+        lon = 50.203856892326414d;
+        testLoc6Landfill.setCity("Hradec Králové");
         testLoc6Landfill.setStreet("Skládka");
-        testLoc6Landfill.setHouseNumber("3");
+        testLoc6Landfill.setHouseNumber("25");
         testLoc6Landfill.setGPSlat(lat);
         testLoc6Landfill.setGPSlon(lon);
-
-
 
         Landfill lf1 = new Landfill();
         lf1.setLocation(testLoc5Landfill);

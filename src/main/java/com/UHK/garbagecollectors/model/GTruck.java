@@ -59,6 +59,16 @@ public class GTruck extends AbstractVehicle {
 
     @Override
     public String toString() {
-        return make + " " + model + " | " + licencePlate + " | " + homeLandfill.getLocation().getCity();
+        if (homeLandfill == null){
+            return make + " " + model + " | " + licencePlate  + " | Skládka nenastavena" ;
+        } else {
+            return make + " " + model + " | " + licencePlate + " | " + homeLandfill.getLocation().getCity();
+        }
+
+    }
+
+    public void unassignLandfill(){
+        this.homeLandfill = null;
+        this.homeLandfillId = -1;
     }
 }

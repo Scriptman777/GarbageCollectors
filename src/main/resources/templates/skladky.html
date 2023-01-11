@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Simple Map Demo</title>
+    <title>Přehled skládek</title>
     <script src="https://api.mapy.cz/loader.js"></script>
     <div th:include="fragments/head"></div>
     <script>Loader.load()</script>
@@ -10,12 +10,97 @@
 <body>
 <div th:replace="fragments/navbar"></div>
 
-<script th:inline="javascript">
-    var testIntValue = [[${testInt}]];
-    console.log(testIntValue)
+<div class="container">
+    <div class="row">
+        <div class="col-2"></div>
+        <div class="col-8" style="text-align: center;">
+            <br>
+            <h1>Přehled skládek <a href="/vytvoritSkladku" type="button" class="btn btn-primary" style="margin-left: 0.8em;"><i class="bi bi-plus-circle"></i></a></h1>
+            <br>
+            <div id="mapa" style="width:600px; height:400px; margin-left: auto; margin-right: auto;"></div>
+            <br>
+            <table class="table table-hover">
+                <thead>
+                <tr>
+                    <th scope="col">Adresa</th>
+                    <th scope="col">Objem [l]</th>
+                    <th scope="col">Přiřazené vozy</th>
+                    <th scope="col"></th>
+                </tr>
+                </thead>
+                <tbody>
+                <div th:each="landfill: ${landfills}">
+                    <tr>
+                        <td th:text="${landfill.getLocation().getAddress()}"></td>
+                        <td th:text="${landfill.capacity}"></td>
+                        <td th:text="${landfill.stationedTrucks}"></td>
+                        <td>
+                            <a th:href="@{/upravaSkladky(id=${landfill.id})}" class="btn btn-primary"><i class="bi bi-pencil-fill"></i></a>
+                        </td>
+                        <td>
+                            <button class="btn btn-danger" data-toggle="modal" th:data-target="'#delete_' + ${landfill.id}"><i class="bi bi-trash-fill"></i></button>
+                            <div class="modal fade" th:id="'delete_' + ${landfill.id}">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title">Potvrzení</h5>
+                                            <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true"></span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <p>Opravdu chcete smazat tuto skládku?</p>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <form action="#" th:action="@{/smazaniSkladky(id=${landfill.id})}" th:method="delete" >
+                                                <button class="btn btn-danger" type="submit">Smazat</button>
+                                            </form>
+                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Zrušit</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                </div>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
 
+<script th:inline="javascript">
+    var gCansList = [[${landfills}]];
+    var lon;
+    var lat;
+
+    if (gCansList.length != 0){
+        lon = gCansList[0].location.gpslon;
+        lat = gCansList[0].location.gpslat;
+    } else {
+        lon = 50.08184714053058;
+        lat = 14.409985542297363;
+    }
     var list = [[${landfills}]];
-    console.log(list)
+    var center = SMap.Coords.fromWGS84(lat, lon);
+    var m = new SMap(JAK.gel("mapa"), center, 13);
+    m.addDefaultLayer(SMap.DEF_BASE).enable();
+    m.addDefaultControls();
+
+    var layer = new SMap.Layer.Marker();
+    m.addLayer(layer);
+
+    list.forEach(
+        addMarkers
+    )
+    layer.enable();
+
+    function addMarkers(item) {
+        center = SMap.Coords.fromWGS84(item.location.gpslat, item.location.gpslon);
+        var options = {title: item.garbageType};
+        var marker = new SMap.Marker(center, item.id, options); //id markeru musí být unikátní
+        layer.addMarker(marker);
+    }
 </script>
 </body>
 </html>
