@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Simple Map Demo</title>
+    <script src="https://api.mapy.cz/loader.js"></script>
+    <div th:include="fragments/head"></div>
+    <script>Loader.load()</script>
+</head>
+<body>
+<div th:replace="fragments/navbar"></div>
+
+<script th:inline="javascript">
+    var testIntValue = [[${testInt}]];
+    console.log(testIntValue)
+
+    var list = [[${landfills}]];
+    console.log(list)
+</script>
+</body>
+</html>
