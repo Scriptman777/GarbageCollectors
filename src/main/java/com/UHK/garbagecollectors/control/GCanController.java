@@ -27,9 +27,9 @@ public class GCanController {
         this.dbMockService = dbm;
     }
 
-    @GetMapping("/")
+    @GetMapping("/popelnice")
     public String popelnice(Model model) {
-//        dbMockService.createMockData();
+        dbMockService.createMockData();
         model.addAttribute("gCans", garbageCanService.getGarbageCans());
         return "popelnice";
     }
@@ -55,7 +55,7 @@ public class GCanController {
         gcan.setLocation(location);
         garbageCanService.add(gcan);
 
-        return "redirect:/";
+        return "redirect:/popelnice";
     }
 
     @GetMapping("/upravaPopelnice")
@@ -94,18 +94,13 @@ public class GCanController {
         locationService.add(location);
         garbageCanService.add(gcan);
 
-        return "redirect:/";
+        return "redirect:/popelnice";
     }
 
     @RequestMapping(value = "/smazaniPopelnice", method = RequestMethod.DELETE)
     public String smazaniPopelnice(int id) {
 
         garbageCanService.deleteCanById(id);
-        return "redirect:/";
+        return "redirect:/popelnice";
     }
-
-
-
-
-
 }
