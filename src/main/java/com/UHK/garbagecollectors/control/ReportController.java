@@ -3,7 +3,6 @@ package com.UHK.garbagecollectors.control;
 import com.UHK.garbagecollectors.model.GCollection;
 import com.UHK.garbagecollectors.svc.GarbageCollectionService;
 import com.UHK.garbagecollectors.svc.ReportService;
-import com.itextpdf.text.DocumentException;
 import org.apache.tomcat.util.http.fileupload.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -11,7 +10,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.text.SimpleDateFormat;
@@ -44,7 +42,13 @@ public class ReportController {
     }
 
     @PostMapping ("/sestavyPlatby")
-    public void generatePayments(HttpServletResponse response, @RequestParam(value = "gcols") int[] selectedColIDs) throws DocumentException, IOException {
+    public void generatePayments(HttpServletResponse response, @RequestParam(value = "gcols", required = false) int[] selectedColIDs) throws IOException {
+
+        if (selectedColIDs == null || selectedColIDs.length == 0) {
+            response.sendRedirect("/sestavyPlatby");
+            return;
+        }
+
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
         Date date = new Date();
         String fileName = formatter.format(date) + "-payments-" + UUID.randomUUID() + ".pdf";
