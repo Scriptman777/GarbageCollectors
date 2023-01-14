@@ -5,8 +5,11 @@ import com.UHK.garbagecollectors.repos.GCollectionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class GarbageCollectionService {
@@ -32,5 +35,11 @@ public class GarbageCollectionService {
 
     public void add(GCollection newObj) {
         repo.save(newObj);
+    }
+
+    public ArrayList<GCollection> getByIds(int[] ids) {
+        // int != Integer, lists can't have int, can't convert int[] to Integer[] in a pretty way... WHY
+        List<Integer> idList = Arrays.stream(ids).boxed().collect(Collectors.toList());
+        return new ArrayList<>(repo.findAllById(idList));
     }
 }

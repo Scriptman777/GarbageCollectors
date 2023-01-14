@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Sestavy</title>
+    <div th:include="fragments/head"></div>
+</head>
+<body>
+<div th:replace="fragments/navbar"></div>
+<div class="container">
+    <div class="row">
+        <div class="col-2"></div>
+        <div class="col-8" style="text-align: center;">
+        <h1>SESTAVY</h1>
+            <h1> <a href="/sestavyPlatby" type="button" class="btn btn-primary col-5" style="margin-left: 0.8em;"><i class="bi bi-envelope-paper-fill"></i>     Generovat informace k platbě</a></h1>
+            <h1> <a href="/sestavyZnamky" type="button" class="btn btn-primary col-5" style="margin-left: 0.8em;"><i class="bi bi-list-check"></i>     Generovat seznam pro známky na popelnice     </a></h1>
+
+
+        </div>
+    </div>
+</div>
+
+
+</body>
+</html>
