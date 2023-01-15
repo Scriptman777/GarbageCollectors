@@ -36,7 +36,10 @@ public class LandfillController {
     @GetMapping("/vytvoritSkladku")
     public String vytvoritSkladku(Model model) {
         model.addAttribute("landfill", new Landfill());
-        model.addAttribute("location", new Location());
+        Location dummyLoc = new Location();
+        dummyLoc.setStreet("");
+        dummyLoc.setHouseNumber("");
+        model.addAttribute("location", dummyLoc);
         model.addAttribute("mapCenterLat", landfillService.getCenterLocation().getGPSlat());
         model.addAttribute("mapCenterLon", landfillService.getCenterLocation().getGPSlon());
         return "vytvoritSkladku";

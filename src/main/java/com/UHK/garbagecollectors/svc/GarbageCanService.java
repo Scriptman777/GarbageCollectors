@@ -86,4 +86,8 @@ public class GarbageCanService {
 
         return repo.findByLocationStreetIn(streets);
     }
+
+    public List<GCan> getGarbageCansWithSearch(String citySearch, String streetSearch) {
+        return repo.findByLocationCityContainingAndLocationStreetContaining(citySearch, streetSearch);
+    }
 }

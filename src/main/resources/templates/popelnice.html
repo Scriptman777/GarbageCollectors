@@ -19,6 +19,13 @@
             <br>
             <div id="mapa" style="width:600px; height:400px; margin-left: auto; margin-right: auto;"></div>
             <br>
+            <form th:action="@{/popelnice}" method="get">
+                <h3>Vyhledávání:</h3>
+                <input class="form-control col-3" id="citySearch" placeholder="Město" th:name="citySearch" th:value="${citySearch}">
+                <input class="form-control col-3" id="streetSearch" placeholder="Ulice" th:name="streetSearch" th:value="${streetSearch}">
+                <input class="btn btn-secondary col-2" style="margin-top: 5px" type="submit" value="Hledat">
+            </form>
+            <br>
             <table class="table table-hover">
                 <thead>
                 <tr>

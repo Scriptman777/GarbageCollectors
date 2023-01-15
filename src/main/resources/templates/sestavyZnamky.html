@@ -18,7 +18,7 @@
 
       <form th:action="@{/sestavyZnamky}" method="get">
         <input class="form-control col-6" id="citySearch" placeholder="Město" th:name="citySearch" th:value="${citySearch}">
-        <input class="btn btn-secondary col-2" type="submit" value="Hledat">
+        <input class="btn btn-secondary col-2" type="submit" style="margin-top: 5px" value="Hledat">
       </form>
 
       <form th:action="@{/sestavyZnamky}" method="get">
@@ -31,7 +31,7 @@
           </option>
         </select>
 
-        <input class="btn btn-secondary col-2" type="submit" value="Vybrat">
+        <input class="btn btn-secondary col-2" type="submit" style="margin-top: 5px" value="Vybrat">
       </form>
 
       <form method="post">

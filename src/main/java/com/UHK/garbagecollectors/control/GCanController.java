@@ -6,10 +6,7 @@ import com.UHK.garbagecollectors.svc.GarbageCanService;
 import com.UHK.garbagecollectors.svc.LocationService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -28,16 +25,25 @@ public class GCanController {
     }
 
     @GetMapping("/popelnice")
-    public String popelnice(Model model) {
-        //dbMockService.createMockData();
-        model.addAttribute("gCans", garbageCanService.getGarbageCans());
+    public String popelnice(Model model,
+                            @RequestParam(value= "citySearch", required = false) String citySearch,
+                            @RequestParam(value= "streetSearch", required = false) String streetSearch) {
+
+        List<GCan> cans = garbageCanService.getGarbageCansWithSearch(citySearch, streetSearch);
+
+        model.addAttribute("citySearch", citySearch);
+        model.addAttribute("streetSearch", streetSearch);
+        model.addAttribute("gCans", cans);
         return "popelnice";
     }
 
     @GetMapping("/vytvoritPopelnici")
     public String vytvoritPopelnici(Model model) {
         model.addAttribute("gcan", new GCan());
-        model.addAttribute("location", new Location());
+        Location dummyLoc = new Location();
+        dummyLoc.setHouseNumber("");
+        dummyLoc.setStreet("");
+        model.addAttribute("location", dummyLoc);
         model.addAttribute("mapCenterLat", garbageCanService.getCenterLocation().getGPSlat());
         model.addAttribute("mapCenterLon", garbageCanService.getCenterLocation().getGPSlon());
         return "vytvoritPopelnici";

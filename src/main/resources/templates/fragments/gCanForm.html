@@ -1,6 +1,7 @@
 <form id="form">
   <div class="row">
     <div class="col-2"></div>
+    <h3>1) Vyhledání lokace:</h3>
     <div class="form-group col-4">
       <div class="form-floating">
         <input class="form-control" placeholder="text" type="text" id="city" th:object="${location}"
@@ -11,7 +12,7 @@
 
     <div class="form-group col-4">
       <div class="form-floating">
-        <input class="form-control" id="street" placeholder="text"
+        <input class="form-control" id="street" placeholder="text" type="text"
                th:value="${location.street} + ' ' + ${location.houseNumber}">
         <label for="street">Ulice a čp.:</label>
       </div>
@@ -22,8 +23,10 @@
   </div>
 </form>
 <br>
+<h3>2) Upřesnění lokace:</h3>
 <div id="m" style="width:70%; height:70%; margin-left: 15%;"></div>
 <br>
+<h3>3) Vyplnění konkrétních dat:</h3>
 <form method="post" th:object="${gcan}">
   <div class="row">
     <div class="form-group col-5">
