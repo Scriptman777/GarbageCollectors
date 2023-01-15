@@ -75,4 +75,10 @@ public class Location {
     public void setHouseNumber(String houseNumber) {
         this.houseNumber = houseNumber;
     }
+
+    public void adjustStrings() {
+        houseNumber = houseNumber.trim();
+        city = city.trim();
+        street = street.trim();
+    }
 }

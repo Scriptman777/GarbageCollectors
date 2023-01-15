@@ -16,6 +16,9 @@ import com.itextpdf.layout.element.AreaBreak;
 import com.itextpdf.layout.element.Paragraph;
 import com.itextpdf.layout.element.Text;
 import com.itextpdf.layout.property.TextAlignment;
+import org.apache.poi.ss.usermodel.*;
+import org.apache.poi.xssf.usermodel.XSSFFont;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.stereotype.Service;
 
 import java.io.*;
@@ -89,4 +92,71 @@ public class ReportService {
         return new ByteArrayInputStream(outputStream.toByteArray());
     }
 
+
+    public InputStream generateStickers(List<GCan> cans) throws IOException {
+
+
+        Workbook workbook = new XSSFWorkbook();
+
+        Sheet sheet = workbook.createSheet("Svozové nádoby");
+        sheet.setColumnWidth(0, 25 * 256);
+        sheet.setColumnWidth(1, 10 * 256);
+        sheet.setColumnWidth(2, 60 * 256);
+
+        Row header = sheet.createRow(0);
+
+        CellStyle headerStyle = workbook.createCellStyle();
+        headerStyle.setFillForegroundColor(IndexedColors.LIGHT_BLUE.getIndex());
+        headerStyle.setFillPattern(FillPatternType.SOLID_FOREGROUND);
+
+        XSSFFont font = ((XSSFWorkbook) workbook).createFont();
+        font.setFontName("Arial");
+        font.setFontHeightInPoints((short) 16);
+        font.setBold(true);
+        headerStyle.setFont(font);
+
+        Cell headerCell = header.createCell(0);
+        headerCell.setCellValue("Typ odpadu");
+        headerCell.setCellStyle(headerStyle);
+
+        headerCell = header.createCell(1);
+        headerCell.setCellValue("Objem");
+        headerCell.setCellStyle(headerStyle);
+
+        headerCell = header.createCell(2);
+        headerCell.setCellValue("Adresa");
+        headerCell.setCellStyle(headerStyle);
+
+        CellStyle style = workbook.createCellStyle();
+        style.setWrapText(true);
+
+        int currentRow = 2;
+
+        for (GCan can: cans) {
+
+            Row row = sheet.createRow(currentRow);
+
+            Cell cell = row.createCell(0);
+            cell.setCellValue(can.getGarbageType().toString());
+            cell.setCellStyle(style);
+
+            cell = row.createCell(1);
+            cell.setCellValue(can.getVolume());
+            cell.setCellStyle(style);
+
+            cell = row.createCell(2);
+            cell.setCellValue(can.getLocation().getAddress());
+            cell.setCellStyle(style);
+
+            currentRow++;
+
+        }
+
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+
+        workbook.write(outputStream);
+
+        return new ByteArrayInputStream(outputStream.toByteArray());
+
+    }
 }

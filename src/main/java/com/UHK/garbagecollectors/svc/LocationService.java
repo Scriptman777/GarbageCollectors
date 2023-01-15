@@ -20,11 +20,20 @@ public class LocationService {
     }
 
     public void add(Location newObj) {
+        newObj.adjustStrings();
         repo.save(newObj);
     }
 
     public void deleteLocationById(int id) {
         repo.deleteById(id);
+    }
+
+    public List<String> searchCities(String city){
+        return repo.findCities(city);
+    }
+
+    public List<String> getStreetsInCity(String city){
+        return repo.findStreetsInCity(city);
     }
 
     public List<Location> getLocations() {

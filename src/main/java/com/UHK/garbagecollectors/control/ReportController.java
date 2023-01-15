@@ -1,7 +1,10 @@
 package com.UHK.garbagecollectors.control;
 
+import com.UHK.garbagecollectors.model.GCan;
 import com.UHK.garbagecollectors.model.GCollection;
+import com.UHK.garbagecollectors.svc.GarbageCanService;
 import com.UHK.garbagecollectors.svc.GarbageCollectionService;
+import com.UHK.garbagecollectors.svc.LocationService;
 import com.UHK.garbagecollectors.svc.ReportService;
 import org.apache.tomcat.util.http.fileupload.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,12 +22,16 @@ import java.util.*;
 public class ReportController {
 
     GarbageCollectionService garbageCollectionService;
+    GarbageCanService garbageCanService;
+    LocationService locationService;
     ReportService reportService;
 
     @Autowired
-    public ReportController(GarbageCollectionService gcs, ReportService rps) {
+    public ReportController(GarbageCollectionService gcs, ReportService rps, LocationService lcs, GarbageCanService gcans) {
         this.garbageCollectionService = gcs;
         this.reportService = rps;
+        this.locationService = lcs;
+        this.garbageCanService = gcans;
     }
 
 
@@ -63,9 +70,45 @@ public class ReportController {
     }
 
 
-    @GetMapping("/sestavyZnámky")
-    public String stickers() {
+    @GetMapping("/sestavyZnamky")
+    public String stickers(Model model,
+                           @RequestParam(value= "citySearch", required = false) String citySearch,
+                           @RequestParam(value= "citySelect", required = false) String citySelect) {
+
+        citySearch = citySearch == null ? "" : citySearch;
+        citySelect = citySelect == null ? "" : citySelect;
+
+        List<String> cities = citySearch.isEmpty() ? new ArrayList<>() : locationService.searchCities(citySearch);
+
+        System.out.println(cities);
+
+        List<String> streets = citySelect.isEmpty() ? new ArrayList<>() : locationService.getStreetsInCity(citySelect);
+
+        model.addAttribute("streets", streets);
+
+        model.addAttribute("cities", cities);
+
+        model.addAttribute("citySearch", citySearch);
+        model.addAttribute("citySelect", citySelect);
+
         return "sestavyZnamky";
+    }
+
+    @PostMapping("/sestavyZnamky")
+    public void stickerReport(HttpServletResponse response, String[] streetsSelect) throws IOException {
+        List<GCan> cans = garbageCanService.getByStreets(Arrays.asList(streetsSelect));
+
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+        Date date = new Date();
+        String fileName = formatter.format(date) + "-stickers-" + UUID.randomUUID() + ".xlsx";
+
+        response.setContentType("application/ms-excel");
+        response.setHeader("Content-Disposition", "attachment; filename=" + fileName);
+
+        InputStream xls = reportService.generateStickers(cans);
+        IOUtils.copy(xls, response.getOutputStream());
+        response.flushBuffer();
+
     }
 
 

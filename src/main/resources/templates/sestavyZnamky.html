@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Sestava pro známky</title>
+    <div th:include="fragments/head"></div>
+</head>
+<body>
+<div th:replace="fragments/navbar"></div>
+
+<div class="container">
+  <div class="row">
+    <div class="col-2"></div>
+    <div class="col-8" style="text-align: center;">
+
+      <h1>Generování sestavy pro známky</h1>
+      <h2 style="margin-bottom: 0.5em">Vyhledejte město:</h2>
+
+      <form th:action="@{/sestavyZnamky}" method="get">
+        <input class="form-control col-6" id="citySearch" placeholder="Město" th:name="citySearch" th:value="${citySearch}">
+        <input class="btn btn-secondary col-2" type="submit" value="Hledat">
+      </form>
+
+      <form th:action="@{/sestavyZnamky}" method="get">
+
+        <h2 style="margin-bottom: 0.5em">Vyberte město:</h2>
+        <select class="form-control" id="citySelect" th:name="citySelect" th:value="${citySelect}">
+          <option th:each="cit : ${cities}"
+                  th:value="${cit}"
+                  th:text="${cit}">
+          </option>
+        </select>
+
+        <input class="btn btn-secondary col-2" type="submit" value="Vybrat">
+      </form>
+
+      <form method="post">
+
+
+        <h2 style="margin-bottom: 0.5em">Vyberte ulice:</h2>
+        <select class="form-control" multiple="multiple" id="gCanSelect" th:name="streetsSelect">
+          <option class="multi"
+                  th:each="str : ${streets}"
+                  th:value="${str}"
+                  th:text="${str}">
+          </option>
+        </select>
+
+        <script>
+          $('.multi').mousedown(function(e) {
+            e.preventDefault();
+            $(this).prop('selected', !$(this).prop('selected'));
+            return false;
+          });
+        </script>
+
+
+        <button href="/sestavyZnamky" type="submit" class="btn btn-primary col-5" style="margin-left: 0.8em;"><i class="bi bi-list-check"></i>     Generovat seznam pro známky na popelnice     </button>
+      </form>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>
