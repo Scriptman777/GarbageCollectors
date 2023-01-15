@@ -82,9 +82,8 @@ public class GarbageCanService {
         repo.deleteById(id);
     }
 
-    public List<GCan> getByStreets(List<String> streets) {
-
-        return repo.findByLocationStreetIn(streets);
+    public List<GCan> getByStreetsInCity(List<String> streets, String city) {
+        return repo.findByLocationStreetInAndLocationCity(streets, city);
     }
 
     public List<GCan> getGarbageCansWithSearch(String citySearch, String streetSearch) {

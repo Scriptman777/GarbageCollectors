@@ -150,8 +150,8 @@ INSERT INTO garbageCollectors.gtruck_supported_garbage_types (gtruck_id, support
 
 
 INSERT INTO garbageCollectors.gcollection (id, name, assigned_truck_id) VALUES (81, 'Hradec - Vše', 1);
-INSERT INTO garbageCollectors.gcollection (id, name, assigned_truck_id) VALUES (82, 'Smiřice - směsný', 2);
-INSERT INTO garbageCollectors.gcollection (id, name, assigned_truck_id) VALUES (83, 'Nechanice - vše', 3);
+INSERT INTO garbageCollectors.gcollection (id, name, assigned_truck_id) VALUES (82, 'Smiřice - Směsný', 2);
+INSERT INTO garbageCollectors.gcollection (id, name, assigned_truck_id) VALUES (83, 'Nechanice - Vše', 3);
 INSERT INTO garbageCollectors.gcollection (id, name, assigned_truck_id) VALUES (84, 'Černilov - Směsný', 1);
 INSERT INTO garbageCollectors.gcollection (id, name, assigned_truck_id) VALUES (85, 'Černilov - Bio', 4);
 

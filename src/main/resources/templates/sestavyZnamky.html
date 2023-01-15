@@ -14,7 +14,7 @@
     <div class="col-8" style="text-align: center;">
 
       <h1>Generování sestavy pro známky</h1>
-      <h2 style="margin-bottom: 0.5em">Vyhledejte město:</h2>
+      <h2 style="margin-bottom: 0.5em; margin-top: 1em">Vyhledejte město:</h2>
 
       <form th:action="@{/sestavyZnamky}" method="get">
         <input class="form-control col-6" id="citySearch" placeholder="Město" th:name="citySearch" th:value="${citySearch}">
@@ -23,7 +23,7 @@
 
       <form th:action="@{/sestavyZnamky}" method="get">
 
-        <h2 style="margin-bottom: 0.5em">Vyberte město:</h2>
+        <h2 style="margin-bottom: 0.5em; margin-top: 1em">Vyberte město:</h2>
         <select class="form-control" id="citySelect" th:name="citySelect" th:value="${citySelect}">
           <option th:each="cit : ${cities}"
                   th:value="${cit}"
@@ -37,7 +37,8 @@
       <form method="post">
 
 
-        <h2 style="margin-bottom: 0.5em">Vyberte ulice:</h2>
+        <h2 style="margin-bottom: 0.5em; margin-top: 1em">Vyberte ulice:</h2>
+        <div th:if="${citySelect} != ''">Město:</div> <strong th:text="${citySelect}" th:name="citySelect"></strong>
         <select class="form-control" multiple="multiple" id="gCanSelect" th:name="streetsSelect">
           <option class="multi"
                   th:each="str : ${streets}"
@@ -55,7 +56,7 @@
         </script>
 
 
-        <button href="/sestavyZnamky" type="submit" class="btn btn-primary col-5" style="margin-left: 0.8em;"><i class="bi bi-list-check"></i>     Generovat seznam pro známky na popelnice     </button>
+        <button href="/sestavyZnamky"  type="submit" class="btn btn-primary col-5" style="margin-left: 0.8em; margin-top: 5px"><i class="bi bi-list-check"></i>     Generovat seznam pro známky na popelnice     </button>
       </form>
     </div>
   </div>

@@ -10,7 +10,7 @@ public interface GCanRepository extends JpaRepository<GCan, Integer> {
 
     List<GCan> findByLocationCityContaining(String city);
 
-    List<GCan> findByLocationStreetIn(List<String> streets);
+    List<GCan> findByLocationStreetInAndLocationCity(List<String> streets, String city);
 
     List<GCan> findByLocationCityContainingAndLocationStreetContaining(String city, String street);
 

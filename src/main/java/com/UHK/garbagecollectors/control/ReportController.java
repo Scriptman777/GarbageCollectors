@@ -95,8 +95,9 @@ public class ReportController {
     }
 
     @PostMapping("/sestavyZnamky")
-    public void stickerReport(HttpServletResponse response, String[] streetsSelect) throws IOException {
-        List<GCan> cans = garbageCanService.getByStreets(Arrays.asList(streetsSelect));
+    public void stickerReport(HttpServletResponse response, String[] streetsSelect, String citySelect) throws IOException {
+        System.out.println(citySelect);
+        List<GCan> cans = garbageCanService.getByStreetsInCity(Arrays.asList(streetsSelect), citySelect);
 
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
         Date date = new Date();
