@@ -29,7 +29,7 @@ public class GCanController {
 
     @GetMapping("/popelnice")
     public String popelnice(Model model) {
-        dbMockService.createMockData();
+        //dbMockService.createMockData();
         model.addAttribute("gCans", garbageCanService.getGarbageCans());
         return "popelnice";
     }

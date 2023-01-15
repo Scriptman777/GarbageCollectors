@@ -14,16 +14,6 @@ public abstract class AbstractVehicle {
     protected String model;
     protected String make;
 
-    @ManyToOne
-    private Garage mainGarage;
-
-    public Garage getMainGarage() {
-        return mainGarage;
-    }
-
-    public void setMainGarage(Garage mainGarage) {
-        this.mainGarage = mainGarage;
-    }
 
     public int getId() {
         return id;

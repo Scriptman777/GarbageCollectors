@@ -22,17 +22,6 @@ public class GCollection {
     private GTruck assignedTruck;
 
 
-    @ManyToOne
-    private Contract contract;
-
-    public Contract getContract() {
-        return contract;
-    }
-
-    public void setContract(Contract contract) {
-        this.contract = contract;
-    }
-
     public int getTruckId() {
         return assignedTruck == null ? -1 : assignedTruck.getId();
     }
