@@ -14,14 +14,12 @@ import java.util.List;
 public class GCanController {
 
     private final GarbageCanService garbageCanService;
-    private LocationService locationService;
+    private final LocationService locationService;
 
-    private DbMockService dbMockService;
 
-    public GCanController(GarbageCanService gcs, LocationService ls, DbMockService dbm) {
+    public GCanController(GarbageCanService gcs, LocationService ls) {
         this.garbageCanService = gcs;
         this.locationService = ls;
-        this.dbMockService = dbm;
     }
 
     @GetMapping("/popelnice")
@@ -39,10 +37,13 @@ public class GCanController {
 
     @GetMapping("/vytvoritPopelnici")
     public String vytvoritPopelnici(Model model) {
-        model.addAttribute("gcan", new GCan());
         Location dummyLoc = new Location();
         dummyLoc.setHouseNumber("");
         dummyLoc.setStreet("");
+        GCan dummyCan = new GCan();
+        dummyCan.setLocation(dummyLoc);
+
+        model.addAttribute("gcan", dummyCan);
         model.addAttribute("location", dummyLoc);
         model.addAttribute("mapCenterLat", garbageCanService.getCenterLocation().getGPSlat());
         model.addAttribute("mapCenterLon", garbageCanService.getCenterLocation().getGPSlon());
