@@ -1,0 +1,26 @@
+version: "3.7"
+
+services:
+  db:
+    image: mariadb:10.9
+    environment:
+      - 'MYSQL_USER=root'
+      - 'MYSQL_ROOT_PASSWORD=correctHorseBatteryStaple'
+      - 'MYSQL_DATABASE=garbageCollectors'
+    ports:
+      - "3306:3306"
+    restart: on-failure
+
+  app:
+    image: garbage-collectors
+    depends_on:
+      - db
+    ports:
+      - "8080:8080"
+    links:
+      - db
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:mariadb://db/garbageCollectors
+      - SPRING_DATASOURCE_USERNAME=root
+      - SPRING_DATASOURCE_PASSWORD=correctHorseBatteryStaple
+    restart: on-failure
