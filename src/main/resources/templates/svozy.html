@@ -43,10 +43,10 @@
                                     class="bi bi-pencil-fill"></i></a>
                         </td>
                         <td>
-                            <button class="btn btn-danger" data-toggle="modal" data-target="#deleteModal"><i
+                            <button class="btn btn-danger" data-toggle="modal" data-target="#deleteModal" th:data-target="'#delete_' + ${collection.id}"><i
                                     class="bi bi-trash-fill"></i></button>
 
-                            <div class="modal fade" id="deleteModal">
+                            <div class="modal fade" th:id="'delete_' + ${collection.id}">
                                 <div class="modal-dialog" role="document">
                                     <div class="modal-content">
                                         <div class="modal-header">
