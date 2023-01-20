@@ -2,13 +2,80 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Přehled popelnic</title>
-    <script src="https://api.mapy.cz/loader.js"></script>
+    <title>Garbage Collectors</title>
     <div th:include="fragments/head"></div>
     <script>Loader.load()</script>
 </head>
 <body>
 <div th:replace="fragments/navbar"></div>
-<p>meow</p>
+<main>
+    <br>
+    <section class="jumbotron text-center">
+        <div class="container">
+            <h1 class="jumbotron-heading">Aplikace Garbage Collectors</h1>
+            <h3>Vneste řád do světa odpadků</h3><br>
+        </div>
+    </section>
+
+    <div class="py-3 bg-light">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="card mb-4 box-shadow">
+                        <div class="card-body">
+                            <H3><i class="bi bi-trash"></i> Svozové nádoby</H3>
+                            <p class="card-text">Přehledná správa svozových nádob s vyznačením lokací na mapě.</p>
+                            <div class="d-flex justify-content-between align-items-center">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card mb-4 box-shadow">
+                        <div class="card-body">
+                            <H3><i class="bi bi-building"></i> Skládky</H3>
+                            <p class="card-text">Přehledná správa skládek zobrazená na mapě.</p><br>
+                            <div class="d-flex justify-content-between align-items-center">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card mb-4 box-shadow">
+                        <div class="card-body">
+                            <H3><i class="bi bi-truck"></i> Svozové vozy</H3>
+                            <p class="card-text">Správa vozového parku a přiřazení ke konkrétním skládkám.</p>
+                            <div class="d-flex justify-content-between align-items-center">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card mb-4 box-shadow">
+                        <div class="card-body">
+                            <H3><i class="bi bi-pin-map"></i> Správa svozů</H3>
+                            <p class="card-text">Propojení jednotlivých svozových nádob a přiřazení příslušného
+                                vozu.</p>
+                            <div class="d-flex justify-content-between align-items-center">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card mb-4 box-shadow">
+                        <div class="card-body">
+                            <H3><i class="bi bi-file-earmark-excel"></i><i class="bi bi-file-earmark-pdf"></i> Správa
+                                sestav</H3>
+                            <p class="card-text">Jednoduché stažení informací k platbě a seznamu známek na popelnice do
+                                souboru Excel a PDF.</p>
+                            <div class="d-flex justify-content-between align-items-center">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
 </body>
 </html>
