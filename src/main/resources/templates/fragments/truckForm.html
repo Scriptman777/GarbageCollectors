@@ -1,5 +1,7 @@
 <form method="post" th:object="${formTruck}">
     <div class="row">
+        <!--        <div class="col-1"></div>-->
+        <div class="col-1"></div>
         <div class="col-5" style="margin-top: 15px;">
             <div class="form-floating">
                 <input class="form-control" id="licencePlate" placeholder="text" th:field="*{licencePlate}">
@@ -13,7 +15,8 @@
                 <label for="make">Výrobce:</label>
             </div>
         </div>
-
+        <div class="col-1"></div>
+        <div class="col-1"></div>
         <div class=" col-5" style="margin-top: 15px;">
             <div class="form-floating">
                 <input class="form-control" id="model" placeholder="text" th:field="*{model}">
@@ -32,21 +35,25 @@
     <br>
 
     <h3>Podporované typy odpadu</h3>
-    <div th:each="gtype: ${gTypes}">
-        <input class="form-check-input" type="checkbox" th:value="${gtype}" th:id="${gtype}" th:field="*{supportedGarbageTypes}">
-        <label class="form-check-label" th:for="${gtype}" th:text="${gtype}">
-        </label>
-    </div>
+    <div class="row">
+        <!--        <div class="col-5" style="background: #3fb618"></div>-->
+        <div class="col-3" th:each="gtype: ${gTypes}" style="text-align: left; padding-left: 5em;">
+            <input class="form-check-input" type="checkbox" th:value="${gtype}" th:id="${gtype}"
+                   th:field="*{supportedGarbageTypes}">
+            <label class="form-check-label" th:for="${gtype}" th:text="${gtype}"></label>
+        </div>
 
+    <br>
     <br>
 
     <h3>Domovská skládka</h3>
-    <div th:each="landfill: ${landfills}">
-        <input class="form-check-input"  type="radio" name="landfillsRadios" th:id="${landfill.id}" th:value="${landfill.id}" th:field="*{homeLandfillId}" checked="${landfill.id == getHomeLandfillId()}">
+    <div class="col-12" th:each="landfill: ${landfills}" style="text-align: left; padding-left: 20em;">
+        <input class="form-check-input" type="radio" name="landfillsRadios" th:id="${landfill.id}"
+               th:value="${landfill.id}" th:field="*{homeLandfillId}" checked="${landfill.id == getHomeLandfillId()}">
         <label class="form-check-label" th:for="${landfill.id}" th:text="${landfill.location.getAddress()}">
         </label>
     </div>
-
+    </div>
 
 
     <input class="btn btn-primary" type="submit" style="margin-top: 15px;" value="Uložit svozový vůz">
